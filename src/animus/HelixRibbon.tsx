@@ -58,19 +58,22 @@ export function HelixRibbon({ selectedT, opened = false }: { selectedT: number; 
 
   return (
     <g>
-      {rungs.map((r) => (
-        <g key={r.key} transform={`translate(${r.x} ${r.y}) rotate(${r.angle})`}>
-          <rect
-            className="animus-helix-rung"
-            x={-r.length / 2}
-            y={-r.thickness / 2}
-            width={r.length}
-            height={r.thickness}
-            rx={r.thickness * 0.18}
-            fill={r.fill}
-          />
-        </g>
-      ))}
+      {rungs.map((r) => {
+        // Unit trapezoid (half-thickness 1, so a y-scale of thickness/2 yields the final height),
+        // wider on the trailing edge and narrower on the leading edge for an angular, scale-like plate.
+        const hl = r.length / 2
+        const points = `${-hl},-1 ${hl * 0.66},-0.56 ${hl * 0.66},0.56 ${-hl},1`
+        return (
+          <g key={r.key} transform={`translate(${r.x} ${r.y}) rotate(${r.angle})`}>
+            <polygon
+              className="animus-helix-rung"
+              points={points}
+              fill={r.fill}
+              style={{ transform: `scaleY(${r.thickness / 2})` }}
+            />
+          </g>
+        )
+      })}
     </g>
   )
 }

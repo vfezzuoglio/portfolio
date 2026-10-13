@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { HelixRibbon } from './HelixRibbon'
 import { nodeT, yFor } from './helixMath'
 import type { MemoryNode } from './nodes'
@@ -19,12 +20,34 @@ export function HelixView({
 }) {
   const active = nodes[selectedIndex]
   const selectedT = nodeT(selectedIndex, nodes.length)
+  const helixRef = useRef<HTMLDivElement>(null)
+  const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null)
 
   return (
-    <div className="animus-helix">
+    <div
+      className="animus-helix"
+      ref={helixRef}
+      onMouseMove={(e) => {
+        const rect = helixRef.current?.getBoundingClientRect()
+        if (!rect) return
+        setCursor({
+          x: ((e.clientX - rect.left) / rect.width) * 100,
+          y: ((e.clientY - rect.top) / rect.height) * 100,
+        })
+      }}
+      onMouseLeave={() => setCursor(null)}
+    >
       <svg className="animus-helix-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
         <HelixRibbon selectedT={selectedT} opened={opened} />
       </svg>
+
+      {cursor && (
+        <div
+          className="animus-helix-cursor-glow"
+          style={{ left: `${cursor.x}%`, top: `${cursor.y}%` }}
+          aria-hidden="true"
+        />
+      )}
 
       <div className="animus-helix-nodes">
         {nodes.map((node, index) => {
