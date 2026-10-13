@@ -1,12 +1,12 @@
 export type CategoryId =
-  | 'overview'
-  | 'people'
-  | 'locations'
-  | 'secret-locations'
-  | 'documents'
+  | 'summary'
+  | 'education'
+  | 'work-experience'
+  | 'volunteer'
+  | 'certifications'
   | 'projects'
-  | 'abilities'
-  | 'user-manual'
+  | 'skills'
+  | 'contact'
 
 export type Category = {
   id: CategoryId
@@ -23,12 +23,12 @@ export function synchFor(seed: string): number {
 }
 
 export const categories: Category[] = [
-  { id: 'overview', label: 'RECENT ENTRIES', description: 'Profile summary and current synchronization status.' },
-  { id: 'people', label: 'PEOPLE', description: 'Subject biography and academic record.' },
-  { id: 'locations', label: 'LOCATIONS', description: 'Professional engagements, by location and timeframe.' },
-  { id: 'secret-locations', label: 'SECRET LOCATIONS', description: 'Unlisted engagements. Volunteer activity.' },
-  { id: 'documents', label: 'DOCUMENTS', description: 'Certifications and recovered dossiers.' },
+  { id: 'summary', label: 'SUMMARY', description: 'Profile overview.' },
+  { id: 'education', label: 'EDUCATION', description: 'Academic record.' },
+  { id: 'work-experience', label: 'WORK EXPERIENCE', description: 'Professional engagements, by role and timeframe.' },
+  { id: 'volunteer', label: 'VOLUNTEER', description: 'Unpaid engagements and community contributions.' },
+  { id: 'certifications', label: 'CERTIFICATIONS', description: 'Verified credentials.' },
   { id: 'projects', label: 'PROJECTS', description: 'Constructed artifacts and simulated systems.' },
-  { id: 'abilities', label: 'ABILITIES', description: 'Trained skills and equipped tools.' },
-  { id: 'user-manual', label: 'USER MANUAL', description: 'Instructions for establishing contact.' },
+  { id: 'skills', label: 'SKILLS', description: 'Trained abilities and equipped tools.' },
+  { id: 'contact', label: 'CONTACT', description: 'Instructions for establishing contact.' },
 ]

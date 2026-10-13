@@ -9,9 +9,10 @@ export function EntryCard({
   bullets,
   synch,
   tags,
+  paragraphs,
   children,
 }: {
-  title: string
+  title?: string
   href?: string
   date?: string
   meta?: string
@@ -19,24 +20,36 @@ export function EntryCard({
   bullets?: string[]
   synch?: number
   tags?: string[]
+  paragraphs?: string[]
   children?: ReactNode
 }) {
   return (
     <div className="animus-card">
-      <div className="animus-card-head">
-        <div className="animus-card-title">
-          {href ? (
-            <a href={href} target="_blank" rel="noreferrer">
-              {title}
-            </a>
-          ) : (
-            title
+      {(title || date || tag) && (
+        <div className="animus-card-head">
+          {(title || tag) && (
+            <div className="animus-card-title">
+              {title && (href ? (
+                <a href={href} target="_blank" rel="noreferrer">
+                  {title}
+                </a>
+              ) : (
+                title
+              ))}
+              {tag && <span className="animus-card-tag">{tag}</span>}
+            </div>
           )}
-          {tag && <span className="animus-card-tag">{tag}</span>}
+          {date && <span className="animus-card-date">{date}</span>}
         </div>
-        {date && <span className="animus-card-date">{date}</span>}
-      </div>
+      )}
       {meta && <p className="animus-card-meta">{meta}</p>}
+      {paragraphs && (
+        <div className="animus-card-paragraphs">
+          {paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </div>
+      )}
       {bullets && (
         <ul className="animus-bullets">
           {bullets.map((bullet, i) => (

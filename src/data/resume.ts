@@ -20,20 +20,54 @@ export const skills = {
   Tools: ['Claude API', 'Gemini API', 'OpenRouter', 'sentence-transformers', 'Jest', 'Postman', 'Alembic', 'Swagger/OpenAPI'],
 }
 
-export const education = [
+type EducationEntry = {
+  school: string
+  location: string
+  degree: string
+  detail: string
+  date: string
+  summary?: string[]
+  areas?: string[]
+  activities?: string[]
+}
+
+export const education: EducationEntry[] = [
   {
     school: 'Pace University, Seidenberg School of Computer Science and Information Systems',
     location: 'New York, NY',
     degree: 'Master of Science (MS) in Computer Science',
     detail: 'GPA: 4.00',
-    date: 'May 2027',
+    date: 'Jan 2025 — May 2027',
+    summary: [
+      "Pursuing a Master of Science in Computer Science at Pace University's Seidenberg School of Computer Science and Information Systems with a 4.0 GPA, expected May 2027.",
+      'Graduate coursework has focused on advanced computer science topics including Algorithms & Computing Theory, Parallel Computing, Data Science, and Software Engineering/Capstone development. Through these courses, I’ve gained experience with algorithm design and analysis, concurrent and parallel programming, data-driven problem solving, and the software development lifecycle.',
+      'My capstone work includes collaborating on the design and development of a business application using requirements analysis, AWS, Jenkins, CI/CD practices, testing, and team-based software development.',
+    ],
+    areas: ['Algorithms', 'Computing Theory', 'Parallel Computing', 'Data Science', 'Software Engineering', 'Cloud Computing', 'CI/CD'],
   },
   {
     school: 'Pace University, Seidenberg School of Computer Science and Information Systems',
     location: 'New York, NY',
     degree: 'Bachelor of Science (BS) in Computer Information Technology',
     detail: 'Concentration: Software Development | GPA: 3.41',
-    date: 'May 2021',
+    date: '2018 — 2021',
+    summary: [
+      'At Pace University, I specialized in Information Technology with a focus on Software Engineering. Throughout my coursework, I gained a strong foundation in programming, database management, and computer security. Some of the key courses I completed include Intro to Programming Using Python, Database Management, Computer Forensics, and Game Development. My academic journey culminated in achieving Dean’s Second Honors in the Spring 2021 semester, demonstrating my dedication to excellence in my field.',
+    ],
+    activities: [
+      'Tech Collective: Member of a student organization focused on fostering collaboration and innovation in the tech community.',
+      'National Cyber League (NCL): Competed in cybersecurity challenges, gaining hands-on experience in securing systems and responding to real-world security threats.',
+    ],
+  },
+  {
+    school: 'Rockland Community College',
+    location: 'Suffern, NY',
+    degree: "Associate's Degree in Computer and Information Systems",
+    detail: 'GPA: 3.2',
+    date: '2015 — 2017',
+    summary: [
+      'During my time at Rockland Community College, I completed courses that provided a strong foundation in both networking and software development. I took CCNA 1 and 2, which introduced me to networking concepts, protocols, and the fundamentals of network management. Additionally, I studied Introduction to Computer Programming (Java), where I gained hands-on experience in Java programming and software development principles. In Web Development, I learned the basics of creating dynamic, interactive websites, including HTML, CSS, and JavaScript. These courses helped me develop a broad skill set, preparing me for more advanced studies and professional opportunities in IT and software development.',
+    ],
   },
 ]
 

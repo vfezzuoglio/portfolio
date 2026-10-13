@@ -129,7 +129,25 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 14px;
   padding: 20px 32px;
+}
+
+.animus-dossier-link {
+  font-family: 'Oxanium', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--a-text-dim);
+  text-decoration: none;
+  border: 1px solid var(--a-line);
+  padding: 8px 16px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.animus-dossier-link:hover {
+  color: var(--a-red);
+  border-color: var(--a-red-dim);
 }
 
 .animus-synch {
@@ -239,13 +257,6 @@
   cursor: pointer;
 }
 
-.animus-boot-eyebrow {
-  font-size: 13px;
-  letter-spacing: 0.4em;
-  color: var(--a-text-dim);
-  text-transform: uppercase;
-}
-
 .animus-boot-title {
   font-family: 'Oxanium', sans-serif;
   font-size: clamp(40px, 8vw, 84px);
@@ -260,45 +271,6 @@
   color: var(--a-text-dim);
   max-width: 520px;
   letter-spacing: 0.04em;
-}
-
-.animus-boot-bar {
-  width: min(480px, 80vw);
-  height: 46px;
-  position: relative;
-  border: 1px solid var(--a-line-strong);
-  background: var(--a-bg-soft);
-  overflow: hidden;
-}
-
-.animus-boot-bar-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--a-red);
-  width: 100%;
-  animation: boot-fill 1.8s ease-out;
-}
-
-@keyframes boot-fill {
-  from {
-    width: 0%;
-  }
-}
-
-.animus-boot-bar-label {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  font-family: 'Oxanium', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--a-white);
-  letter-spacing: 0.08em;
-  mix-blend-mode: difference;
 }
 
 .animus-boot-enter {
@@ -488,6 +460,20 @@
   margin-bottom: 12px;
 }
 
+.animus-card-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.animus-card-paragraphs p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--a-text);
+}
+
 .animus-card-tag {
   display: inline-block;
   font-size: 11px;
@@ -648,6 +634,597 @@
   letter-spacing: 0.03em;
 }
 
+/* ---------- helix (memory selection) ---------- */
+
+.animus-helix {
+  position: relative;
+  flex: 1;
+  min-height: 420px;
+}
+
+.animus-helix-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.animus-helix-rung {
+  transition: transform 0.3s ease, fill 0.3s ease;
+}
+
+
+.animus-helix-nodes {
+  position: absolute;
+  inset: 0;
+}
+
+.animus-helix-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.animus-helix-marker {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--a-line-strong);
+  background: var(--a-bg-soft);
+  transform: rotate(45deg);
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.animus-helix-node.is-selected .animus-helix-marker {
+  border-color: var(--a-red);
+  background: var(--a-red);
+  box-shadow: 0 0 0 5px var(--a-red-dim);
+}
+
+.animus-helix-node.is-selected::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  width: 1px;
+  height: 16px;
+  background: var(--a-red);
+}
+
+.animus-helix-hitzones {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.animus-helix-hitzone {
+  height: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* ---------- sequence panel (fixed, bottom-left of helix) ---------- */
+
+.animus-seqpanel {
+  position: absolute;
+  left: 0;
+  bottom: 14%;
+  width: min(460px, 80vw);
+}
+
+.animus-seqpanel-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a1b1f;
+  color: #f2f2f3;
+  padding: 7px 16px;
+  font-family: 'Oxanium', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.animus-seqpanel-idx {
+  color: #8c8d93;
+  letter-spacing: 0.08em;
+}
+
+.animus-seqpanel-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(90deg, #a81019, #d41b24);
+  padding: 14px 18px;
+  min-height: 64px;
+}
+
+.animus-seqpanel-pct {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: 0.01em;
+  color: #fff;
+  flex: none;
+}
+
+.animus-seqpanel-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.animus-seqpanel-title {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.animus-seqpanel-date {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- node detail modal ---------- */
+
+.animus-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 20, 23, 0.35);
+  backdrop-filter: blur(3px);
+  animation: modal-fade 0.18s ease-out both;
+}
+
+:root[data-theme='dark'] .animus-modal-backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.animus-modal {
+  width: min(640px, 100%);
+  max-height: min(80vh, 640px);
+  overflow-y: auto;
+  background: var(--a-bg-soft);
+  border: 1px solid var(--a-line-strong);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  padding: 28px 30px 30px;
+  animation: modal-rise 0.2s ease-out both;
+}
+
+@keyframes modal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.animus-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.animus-modal-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--a-text-dim);
+}
+
+.animus-modal-close {
+  background: none;
+  border: 1px solid var(--a-line);
+  color: var(--a-text-dim);
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.animus-modal-close:hover {
+  color: var(--a-red);
+  border-color: var(--a-red-dim);
+}
+
+.animus-modal-title {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 3vw, 26px);
+  letter-spacing: 0.02em;
+  color: var(--a-text);
+  margin: 0 0 18px;
+}
+
+.animus-modal-body .animus-card {
+  margin-bottom: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  backdrop-filter: none;
+}
+
+.animus-modal-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--a-red);
+  text-decoration: none;
+}
+
+.animus-modal-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- database article (summary / contact) ---------- */
+
+.animus-article {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 48px;
+}
+
+.animus-article-media {
+  flex: none;
+  width: 280px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, rgba(200, 22, 31, 0.08), transparent 60%),
+    repeating-linear-gradient(135deg, var(--a-line) 0 1px, transparent 1px 14px),
+    var(--a-bg-soft);
+  border: 1px solid var(--a-line-strong);
+}
+
+.animus-article-monogram {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  letter-spacing: 0.04em;
+  color: var(--a-line-strong);
+}
+
+.animus-article-panel {
+  flex: 1;
+  min-width: 0;
+  margin-left: -64px;
+  margin-top: 64px;
+  max-width: 680px;
+}
+
+.animus-article-header {
+  background: #1a1b1f;
+  color: #f2f2f3;
+  padding: 10px 20px;
+  font-family: 'Oxanium', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.animus-article-body {
+  background: var(--a-panel);
+  border: 1px solid var(--a-line);
+  border-top: none;
+  backdrop-filter: blur(6px);
+  padding: 24px 26px 28px;
+}
+
+.animus-article-title {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 3vw, 26px);
+  letter-spacing: 0.02em;
+  color: var(--a-text);
+  margin: 0 0 12px;
+}
+
+.animus-article-body p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--a-text);
+  margin: 0 0 18px;
+}
+
+@media (max-width: 860px) {
+  .animus-article {
+    flex-direction: column;
+    padding-top: 0;
+  }
+  .animus-article-media {
+    width: 100%;
+    height: 140px;
+  }
+  .animus-article-panel {
+    margin-left: 0;
+    margin-top: -24px;
+    max-width: none;
+    width: 100%;
+    padding: 0 12px;
+  }
+}
+
+/* ---------- inventory (skills / certifications) ---------- */
+
+.animus-inventory {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 48px;
+  min-height: 420px;
+}
+
+.animus-inv-sidebar {
+  flex: 0 0 auto;
+  width: min(360px, 100%);
+  padding-top: 8px;
+}
+
+.animus-inv-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #1a1b1f;
+  color: #f2f2f3;
+  padding: 12px 18px;
+  font-family: 'Oxanium', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.animus-inv-stack {
+  position: relative;
+  width: 22px;
+  height: 18px;
+  flex: none;
+}
+
+.animus-inv-stack span {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--a-red);
+  background: rgba(200, 22, 31, 0.25);
+}
+
+.animus-inv-stack span:nth-child(1) {
+  transform: translate(0, 4px);
+  opacity: 0.5;
+}
+.animus-inv-stack span:nth-child(2) {
+  transform: translate(2px, 2px);
+  opacity: 0.75;
+}
+.animus-inv-stack span:nth-child(3) {
+  transform: translate(4px, 0);
+}
+
+.animus-inv-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.animus-inv-li {
+  position: relative;
+}
+
+.animus-inv-list button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  background: var(--a-bg-soft);
+  border: none;
+  border-bottom: 1px solid var(--a-line);
+  padding: 13px 18px;
+  font: inherit;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: var(--a-text);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.animus-inv-list button .animus-diamond {
+  border-color: var(--a-text-dim);
+  transition: border-color 0.15s ease;
+}
+
+.animus-inv-list button:hover,
+.animus-inv-list button.is-selected {
+  background: var(--a-red);
+  color: #fff;
+}
+
+.animus-inv-list button:hover .animus-diamond,
+.animus-inv-list button.is-selected .animus-diamond {
+  border-color: #fff;
+}
+
+.animus-inv-caret {
+  margin-left: auto;
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  opacity: 0.6;
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+}
+
+.animus-inv-list button.is-expanded .animus-inv-caret {
+  transform: rotate(-135deg);
+}
+
+.animus-inv-flyout {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  margin-left: 14px;
+  width: 320px;
+  z-index: 6;
+  background: var(--a-panel);
+  border: 1px solid var(--a-line-strong);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(8px);
+  animation: flyout-in 0.16s ease-out both;
+}
+
+@keyframes flyout-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+
+.animus-inv-flyout::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: -7px;
+  width: 12px;
+  height: 12px;
+  background: var(--a-red);
+  transform: rotate(45deg);
+}
+
+.animus-inv-flyout-head {
+  position: relative;
+  background: var(--a-red);
+  color: #fff;
+  font-family: 'Oxanium', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+}
+
+.animus-inv-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.animus-inv-sublist li {
+  padding: 12px 18px 12px 38px;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  color: var(--a-text);
+  position: relative;
+}
+
+.animus-inv-sublist li::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  background: var(--a-red);
+  transform: rotate(45deg);
+}
+
+.animus-inv-scatter {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.animus-inv-chip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform-origin: left center;
+  width: max-content;
+  max-width: 230px;
+}
+
+.animus-inv-chip.anchor-end {
+  flex-direction: row-reverse;
+  transform-origin: right center;
+}
+
+.animus-inv-chip-marker {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--a-line-strong);
+  transform: rotate(45deg);
+}
+
+.animus-inv-chip.is-active .animus-inv-chip-marker {
+  border-color: var(--a-red);
+  background: var(--a-red);
+}
+
+.animus-inv-chip-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--a-panel);
+  border: 1px solid var(--a-line);
+  padding: 6px 12px;
+  backdrop-filter: blur(4px);
+}
+
+.animus-inv-chip-label {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--a-text-dim);
+}
+
+.animus-inv-chip.is-active .animus-inv-chip-label {
+  color: var(--a-red);
+}
+
+.animus-inv-chip.anchor-end .animus-inv-chip-text {
+  text-align: right;
+}
+
+.animus-inv-chip-sublabel {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--a-text-dim);
+}
+
 @media (max-width: 860px) {
   .animus-database {
     flex-direction: column;
@@ -660,9 +1237,45 @@
   .animus-db-ghost {
     display: none;
   }
+  .animus-seqpanel {
+    position: static;
+    width: 100%;
+    margin-top: 24px;
+  }
+  .animus-helix {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+  }
   .animus-hud-bottom {
     flex-direction: column;
     gap: 10px;
     align-items: flex-start;
+  }
+  .animus-modal {
+    padding: 22px 20px 24px;
+  }
+  .animus-inventory {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .animus-inv-sidebar {
+    width: 100%;
+  }
+  .animus-inv-scatter {
+    min-height: 440px;
+  }
+  .animus-inv-chip {
+    max-width: 150px;
+  }
+  .animus-inv-flyout {
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin-left: 0;
+    width: auto;
+  }
+  .animus-inv-flyout::before {
+    display: none;
   }
 }
