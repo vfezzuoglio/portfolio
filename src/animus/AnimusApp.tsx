@@ -2,23 +2,37 @@ import { useCallback, useEffect, useState } from 'react'
 import './animus.css'
 import { AnimusBackground } from './AnimusBackground'
 import { DatabaseMenu } from './DatabaseMenu'
-import { EntryDetail } from './EntryDetail'
+import { HelixView } from './HelixView'
+import { NodeDetail } from './NodeDetail'
 import { categories } from './data'
+import { categoryNodes } from './nodes'
 import { profile } from '../data/resume'
 
-type Screen = 'boot' | 'database' | 'entry'
+type Screen = 'boot' | 'database' | 'category'
 
 export function AnimusApp() {
   const [screen, setScreen] = useState<Screen>('boot')
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [categoryIndex, setCategoryIndex] = useState(0)
+  const [nodeIndex, setNodeIndex] = useState(0)
+  const [opened, setOpened] = useState(false)
+
+  const activeCategory = categories[categoryIndex]
+  const nodes = categoryNodes[activeCategory.id]
+  const activeNode = nodes[nodeIndex]
 
   const openDatabase = useCallback(() => setScreen('database'), [])
-  const openEntry = useCallback((index: number) => {
-    setSelectedIndex(index)
-    setScreen('entry')
+  const openCategory = useCallback((index: number) => {
+    setCategoryIndex(index)
+    setNodeIndex(0)
+    setOpened(false)
+    setScreen('category')
   }, [])
-  const backToDatabase = useCallback(() => setScreen('database'), [])
+  const backToDatabase = useCallback(() => {
+    setOpened(false)
+    setScreen('database')
+  }, [])
   const backToBoot = useCallback(() => setScreen('boot'), [])
+  const backToHelix = useCallback(() => setOpened(false), [])
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -32,21 +46,37 @@ export function AnimusApp() {
       if (screen === 'database') {
         if (e.key === 'ArrowDown') {
           e.preventDefault()
-          setSelectedIndex((i) => (i + 1) % categories.length)
+          setCategoryIndex((i) => (i + 1) % categories.length)
         } else if (e.key === 'ArrowUp') {
           e.preventDefault()
-          setSelectedIndex((i) => (i - 1 + categories.length) % categories.length)
+          setCategoryIndex((i) => (i - 1 + categories.length) % categories.length)
         } else if (e.key === 'Enter') {
           e.preventDefault()
-          openEntry(selectedIndex)
+          openCategory(categoryIndex)
         } else if (e.key === 'Backspace' || e.key === 'Escape') {
           e.preventDefault()
           backToBoot()
         }
         return
       }
-      if (screen === 'entry') {
-        if (e.key === 'Backspace' || e.key === 'Escape') {
+      if (screen === 'category') {
+        if (opened) {
+          if (e.key === 'Backspace' || e.key === 'Escape') {
+            e.preventDefault()
+            backToHelix()
+          }
+          return
+        }
+        if (e.key === 'ArrowRight') {
+          e.preventDefault()
+          setNodeIndex((i) => Math.min(i + 1, nodes.length - 1))
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault()
+          setNodeIndex((i) => Math.max(i - 1, 0))
+        } else if (e.key === 'Enter') {
+          e.preventDefault()
+          setOpened(true)
+        } else if (e.key === 'Backspace' || e.key === 'Escape') {
           e.preventDefault()
           backToDatabase()
         }
@@ -54,15 +84,16 @@ export function AnimusApp() {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [screen, selectedIndex, openDatabase, openEntry, backToDatabase, backToBoot])
-
-  const activeCategory = categories[selectedIndex]
+  }, [screen, opened, categoryIndex, nodes.length, openDatabase, openCategory, backToDatabase, backToBoot, backToHelix])
 
   return (
     <div className="animus-root">
       <AnimusBackground />
       <div className="animus-shell">
         <div className="animus-hud-top">
+          <a className="animus-dossier-link" href="/Vincent_Fezzuoglio_Resume.pdf" target="_blank" rel="noreferrer">
+            DOWNLOAD DOSSIER
+          </a>
           <div className="animus-synch">
             TOTAL SYNCH <strong>100.0%</strong>
           </div>
@@ -92,17 +123,30 @@ export function AnimusApp() {
           )}
 
           {screen === 'database' && (
-            <DatabaseMenu selectedIndex={selectedIndex} onHover={setSelectedIndex} onSelect={openEntry} />
+            <DatabaseMenu selectedIndex={categoryIndex} onHover={setCategoryIndex} onSelect={openCategory} />
           )}
 
-          {screen === 'entry' && (
+          {screen === 'category' && !opened && (
+            <HelixView
+              categoryLabel={activeCategory.label}
+              nodes={nodes}
+              selectedIndex={nodeIndex}
+              onHoverNode={setNodeIndex}
+              onOpenNode={(index) => {
+                setNodeIndex(index)
+                setOpened(true)
+              }}
+            />
+          )}
+
+          {screen === 'category' && opened && (
             <div className="animus-entry">
               <div className="animus-entry-header">
                 <span className="animus-diamond" />
-                <h2 className="animus-entry-title">{activeCategory.label}</h2>
-                <span className="animus-entry-sub">{activeCategory.description}</span>
+                <h2 className="animus-entry-title">{activeNode.title}</h2>
+                <span className="animus-entry-sub">{activeCategory.label}</span>
               </div>
-              <EntryDetail categoryId={activeCategory.id} />
+              <NodeDetail node={activeNode} />
             </div>
           )}
         </div>
@@ -121,11 +165,19 @@ export function AnimusApp() {
                 </button>
               </>
             )}
-            {screen === 'entry' && (
+            {screen === 'category' && (
+              <>
+                <span className="sep">›</span>
+                <button type="button" onClick={backToHelix} disabled={!opened}>
+                  {activeCategory.label}
+                </button>
+              </>
+            )}
+            {screen === 'category' && opened && (
               <>
                 <span className="sep">›</span>
                 <button type="button" disabled>
-                  {activeCategory.label}
+                  {activeNode.title}
                 </button>
               </>
             )}
@@ -149,7 +201,20 @@ export function AnimusApp() {
                 </span>
               </>
             )}
-            {screen === 'entry' && (
+            {screen === 'category' && !opened && (
+              <>
+                <span className="animus-key">
+                  <kbd>←→</kbd> Navigate
+                </span>
+                <span className="animus-key">
+                  <kbd>Enter</kbd> Select
+                </span>
+                <span className="animus-key">
+                  <kbd>Backspace</kbd> Back
+                </span>
+              </>
+            )}
+            {screen === 'category' && opened && (
               <span className="animus-key">
                 <kbd>Backspace</kbd> Back
               </span>

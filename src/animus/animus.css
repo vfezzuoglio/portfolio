@@ -129,7 +129,25 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 14px;
   padding: 20px 32px;
+}
+
+.animus-dossier-link {
+  font-family: 'Oxanium', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--a-text-dim);
+  text-decoration: none;
+  border: 1px solid var(--a-line);
+  padding: 8px 16px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.animus-dossier-link:hover {
+  color: var(--a-red);
+  border-color: var(--a-red-dim);
 }
 
 .animus-synch {
@@ -648,6 +666,157 @@
   letter-spacing: 0.03em;
 }
 
+/* ---------- helix (memory selection) ---------- */
+
+.animus-helix {
+  position: relative;
+  flex: 1;
+  min-height: 420px;
+}
+
+.animus-helix-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.animus-helix-nodes {
+  position: absolute;
+  inset: 0;
+}
+
+.animus-helix-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.animus-helix-marker {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--a-line-strong);
+  background: var(--a-bg-soft);
+  transform: rotate(45deg);
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.animus-helix-node:hover .animus-helix-marker {
+  border-color: var(--a-red);
+}
+
+.animus-helix-node.is-selected .animus-helix-marker {
+  border-color: var(--a-red);
+  background: var(--a-red);
+  box-shadow: 0 0 0 5px var(--a-red-dim);
+}
+
+.animus-helix-node.is-selected::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  width: 1px;
+  height: 56px;
+  background: var(--a-red-dim);
+}
+
+.animus-helix-callout {
+  position: absolute;
+  bottom: calc(100% + 62px);
+  left: 50%;
+  width: max-content;
+  max-width: min(60vw, 560px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.animus-helix-callout.anchor-center {
+  transform: translateX(-50%);
+  text-align: center;
+  align-items: center;
+}
+
+.animus-helix-callout.anchor-start {
+  transform: translateX(0);
+  text-align: left;
+  align-items: flex-start;
+}
+
+.animus-helix-callout.anchor-end {
+  transform: translateX(-100%);
+  text-align: right;
+  align-items: flex-end;
+}
+
+.animus-helix-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--a-text-dim);
+}
+
+.animus-helix-title {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: clamp(22px, 3vw, 32px);
+  letter-spacing: 0.02em;
+  color: var(--a-text);
+}
+
+.animus-helix-synch {
+  position: absolute;
+  left: 0;
+  bottom: 18%;
+  width: min(340px, 50vw);
+}
+
+.animus-helix-synch-track {
+  position: relative;
+  height: 44px;
+  background: var(--a-bg-soft);
+  border: 1px solid var(--a-line-strong);
+  overflow: hidden;
+}
+
+.animus-helix-synch-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--a-red);
+  animation: synch-grow 1s ease-out both;
+  transform-origin: left;
+}
+
+.animus-helix-synch-label {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: var(--a-white);
+  mix-blend-mode: difference;
+}
+
+.animus-helix-synch-label span:last-child {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
 @media (max-width: 860px) {
   .animus-database {
     flex-direction: column;
@@ -659,6 +828,20 @@
   }
   .animus-db-ghost {
     display: none;
+  }
+  .animus-helix-synch {
+    position: static;
+    width: 100%;
+    margin-top: 24px;
+  }
+  .animus-helix {
+    min-height: 320px;
+  }
+  .animus-helix-callout {
+    bottom: calc(100% + 40px);
+  }
+  .animus-helix-node.is-selected::before {
+    height: 34px;
   }
   .animus-hud-bottom {
     flex-direction: column;
