@@ -35,6 +35,13 @@ export const education = [
     detail: 'Concentration: Software Development | GPA: 3.41',
     date: 'May 2021',
   },
+  {
+    school: 'Rockland Community College',
+    location: 'Suffern, NY',
+    degree: "Associate's Degree in Computer and Information Systems",
+    detail: 'GPA: 3.2',
+    date: '2015 — 2017',
+  },
 ]
 
 export const certifications = [
