@@ -724,97 +724,183 @@
   bottom: calc(100% + 6px);
   left: 50%;
   width: 1px;
-  height: 56px;
-  background: var(--a-red-dim);
+  height: 16px;
+  background: var(--a-red);
 }
 
-.animus-helix-callout {
+/* ---------- sequence panel (fixed, bottom-left of helix) ---------- */
+
+.animus-seqpanel {
   position: absolute;
-  bottom: calc(100% + 62px);
-  left: 50%;
-  width: max-content;
-  max-width: min(60vw, 560px);
+  left: 0;
+  bottom: 14%;
+  width: min(460px, 80vw);
+}
+
+.animus-seqpanel-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a1b1f;
+  color: #f2f2f3;
+  padding: 7px 16px;
+  font-family: 'Oxanium', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.animus-seqpanel-idx {
+  color: #8c8d93;
+  letter-spacing: 0.08em;
+}
+
+.animus-seqpanel-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(90deg, #a81019, #d41b24);
+  padding: 14px 18px;
+  min-height: 64px;
+}
+
+.animus-seqpanel-pct {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: 0.01em;
+  color: #fff;
+  flex: none;
+}
+
+.animus-seqpanel-meta {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  pointer-events: none;
+  gap: 2px;
+  min-width: 0;
 }
 
-.animus-helix-callout.anchor-center {
-  transform: translateX(-50%);
-  text-align: center;
+.animus-seqpanel-title {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.animus-seqpanel-date {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- node detail modal ---------- */
+
+.animus-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 20, 23, 0.35);
+  backdrop-filter: blur(3px);
+  animation: modal-fade 0.18s ease-out both;
 }
 
-.animus-helix-callout.anchor-start {
-  transform: translateX(0);
-  text-align: left;
-  align-items: flex-start;
+:root[data-theme='dark'] .animus-modal-backdrop {
+  background: rgba(0, 0, 0, 0.55);
 }
 
-.animus-helix-callout.anchor-end {
-  transform: translateX(-100%);
-  text-align: right;
-  align-items: flex-end;
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
 }
 
-.animus-helix-eyebrow {
+.animus-modal {
+  width: min(640px, 100%);
+  max-height: min(80vh, 640px);
+  overflow-y: auto;
+  background: var(--a-bg-soft);
+  border: 1px solid var(--a-line-strong);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  padding: 28px 30px 30px;
+  animation: modal-rise 0.2s ease-out both;
+}
+
+@keyframes modal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.animus-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.animus-modal-eyebrow {
   font-size: 12px;
   letter-spacing: 0.2em;
   color: var(--a-text-dim);
 }
 
-.animus-helix-title {
+.animus-modal-close {
+  background: none;
+  border: 1px solid var(--a-line);
+  color: var(--a-text-dim);
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.animus-modal-close:hover {
+  color: var(--a-red);
+  border-color: var(--a-red-dim);
+}
+
+.animus-modal-title {
   font-family: 'Oxanium', sans-serif;
   font-weight: 700;
-  font-size: clamp(22px, 3vw, 32px);
+  font-size: clamp(20px, 3vw, 26px);
   letter-spacing: 0.02em;
   color: var(--a-text);
+  margin: 0 0 18px;
 }
 
-.animus-helix-synch {
-  position: absolute;
-  left: 0;
-  bottom: 18%;
-  width: min(340px, 50vw);
+.animus-modal-body .animus-card {
+  margin-bottom: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  backdrop-filter: none;
 }
 
-.animus-helix-synch-track {
-  position: relative;
-  height: 44px;
-  background: var(--a-bg-soft);
-  border: 1px solid var(--a-line-strong);
-  overflow: hidden;
-}
-
-.animus-helix-synch-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--a-red);
-  animation: synch-grow 1s ease-out both;
-  transform-origin: left;
-}
-
-.animus-helix-synch-label {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 16px;
-  font-family: 'Oxanium', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 0.04em;
-  color: var(--a-white);
-  mix-blend-mode: difference;
-}
-
-.animus-helix-synch-label span:last-child {
-  font-size: 12px;
+.animus-modal-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 13px;
   font-weight: 600;
-  opacity: 0.85;
+  letter-spacing: 0.04em;
+  color: var(--a-red);
+  text-decoration: none;
+}
+
+.animus-modal-link:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 860px) {
@@ -829,23 +915,22 @@
   .animus-db-ghost {
     display: none;
   }
-  .animus-helix-synch {
+  .animus-seqpanel {
     position: static;
     width: 100%;
     margin-top: 24px;
   }
   .animus-helix {
     min-height: 320px;
-  }
-  .animus-helix-callout {
-    bottom: calc(100% + 40px);
-  }
-  .animus-helix-node.is-selected::before {
-    height: 34px;
+    display: flex;
+    flex-direction: column;
   }
   .animus-hud-bottom {
     flex-direction: column;
     gap: 10px;
     align-items: flex-start;
+  }
+  .animus-modal {
+    padding: 22px 20px 24px;
   }
 }

@@ -4,7 +4,7 @@ import { EntryCard } from './EntryCard'
 
 function SummaryDetail({ node }: { node: MemoryNode }) {
   return (
-    <EntryCard title={node.title} meta={node.meta}>
+    <EntryCard meta={node.meta}>
       <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--a-text)', margin: '0 0 16px' }}>{profile.blurb}</p>
       <div className="animus-contact-grid">
         <a className="animus-contact-link" href={`mailto:${profile.email}`}>
@@ -57,7 +57,7 @@ function ContactDetail() {
 
 function SkillsDetail({ node }: { node: MemoryNode }) {
   return (
-    <EntryCard title={node.title}>
+    <EntryCard>
       <div className="animus-chip-grid">
         {node.skillItems?.map((item) => (
           <span key={item} className="animus-chip">
@@ -112,15 +112,13 @@ export function NodeDetail({ node }: { node: MemoryNode }) {
       return <ReposDetail node={node} />
     default:
       return (
-        <EntryCard
-          title={node.title}
-          href={node.href}
-          meta={node.meta}
-          date={node.date}
-          tag={node.tag}
-          bullets={node.bullets}
-          tags={node.tags}
-        />
+        <EntryCard meta={node.meta} date={node.date} tag={node.tag} bullets={node.bullets} tags={node.tags}>
+          {node.href && (
+            <a className="animus-modal-link" href={node.href} target="_blank" rel="noreferrer">
+              View repository ↗
+            </a>
+          )}
+        </EntryCard>
       )
   }
 }

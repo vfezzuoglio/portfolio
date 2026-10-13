@@ -3,7 +3,7 @@ import './animus.css'
 import { AnimusBackground } from './AnimusBackground'
 import { DatabaseMenu } from './DatabaseMenu'
 import { HelixView } from './HelixView'
-import { NodeDetail } from './NodeDetail'
+import { NodeDetailModal } from './NodeDetailModal'
 import { categories } from './data'
 import { categoryNodes } from './nodes'
 import { profile } from '../data/resume'
@@ -126,7 +126,7 @@ export function AnimusApp() {
             <DatabaseMenu selectedIndex={categoryIndex} onHover={setCategoryIndex} onSelect={openCategory} />
           )}
 
-          {screen === 'category' && !opened && (
+          {screen === 'category' && (
             <HelixView
               categoryLabel={activeCategory.label}
               nodes={nodes}
@@ -138,18 +138,11 @@ export function AnimusApp() {
               }}
             />
           )}
-
-          {screen === 'category' && opened && (
-            <div className="animus-entry">
-              <div className="animus-entry-header">
-                <span className="animus-diamond" />
-                <h2 className="animus-entry-title">{activeNode.title}</h2>
-                <span className="animus-entry-sub">{activeCategory.label}</span>
-              </div>
-              <NodeDetail node={activeNode} />
-            </div>
-          )}
         </div>
+
+        {screen === 'category' && opened && (
+          <NodeDetailModal node={activeNode} categoryLabel={activeCategory.label} onClose={backToHelix} />
+        )}
 
         <div className="animus-hud-bottom">
           <div className="animus-breadcrumb">

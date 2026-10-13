@@ -1,19 +1,6 @@
-import { useMemo } from 'react'
+import { HelixRibbon } from './HelixRibbon'
+import { nodeT, yFor } from './helixMath'
 import type { MemoryNode } from './nodes'
-
-const AMPLITUDE = 9
-const BASE_Y = 52
-const FREQ = 1.3
-const PHASE = 0.5
-
-function yFor(t: number) {
-  return BASE_Y + AMPLITUDE * Math.sin(t * Math.PI * FREQ + PHASE)
-}
-
-function nodeT(index: number, count: number) {
-  if (count <= 1) return 0.5
-  return 0.14 + (0.72 * index) / (count - 1)
-}
 
 export function HelixView({
   categoryLabel,
@@ -28,49 +15,13 @@ export function HelixView({
   onHoverNode: (index: number) => void
   onOpenNode: (index: number) => void
 }) {
-  const pathD = useMemo(() => {
-    const points: string[] = []
-    for (let i = -10; i <= 110; i += 2) {
-      const t = i / 100
-      const x = t * 100
-      const y = yFor(t)
-      points.push(`${i === -10 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`)
-    }
-    return points.join(' ')
-  }, [])
-
   const active = nodes[selectedIndex]
+  const selectedT = nodeT(selectedIndex, nodes.length)
 
   return (
     <div className="animus-helix">
       <svg className="animus-helix-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="helixFade" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0%" stopColor="var(--a-line-strong)" stopOpacity="0" />
-            <stop offset="12%" stopColor="var(--a-line-strong)" stopOpacity="1" />
-            <stop offset="88%" stopColor="var(--a-line-strong)" stopOpacity="1" />
-            <stop offset="100%" stopColor="var(--a-line-strong)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path d={pathD} fill="none" stroke="url(#helixFade)" strokeWidth="0.6" vectorEffect="non-scaling-stroke" />
-        <path
-          d={pathD}
-          fill="none"
-          stroke="url(#helixFade)"
-          strokeWidth="0.25"
-          opacity="0.6"
-          transform="translate(0, 2.2)"
-          vectorEffect="non-scaling-stroke"
-        />
-        <path
-          d={pathD}
-          fill="none"
-          stroke="url(#helixFade)"
-          strokeWidth="0.25"
-          opacity="0.6"
-          transform="translate(0, -2.2)"
-          vectorEffect="non-scaling-stroke"
-        />
+        <HelixRibbon selectedT={selectedT} />
       </svg>
 
       <div className="animus-helix-nodes">
@@ -79,7 +30,6 @@ export function HelixView({
           const x = t * 100
           const y = yFor(t)
           const isSelected = index === selectedIndex
-          const anchor = x < 30 ? 'start' : x > 70 ? 'end' : 'center'
           return (
             <button
               key={node.id}
@@ -92,24 +42,26 @@ export function HelixView({
               aria-label={node.title}
             >
               <span className="animus-helix-marker" />
-              {isSelected && (
-                <span className={`animus-helix-callout anchor-${anchor}`}>
-                  <span className="animus-helix-eyebrow">{categoryLabel}</span>
-                  <span className="animus-helix-title">{node.title}</span>
-                </span>
-              )}
             </button>
           )
         })}
       </div>
 
-      <div className="animus-helix-synch">
-        <div className="animus-helix-synch-track">
-          <div className="animus-helix-synch-fill" style={{ width: `${active.synch}%` }} />
-          <div className="animus-helix-synch-label">
-            <span>{active.synch}%</span>
-            <span>SYNCH</span>
-          </div>
+      <div className="animus-seqpanel">
+        <div className="animus-seqpanel-tag">
+          <span>{categoryLabel}</span>
+          <span className="animus-seqpanel-idx">
+            {selectedIndex + 1} / {nodes.length}
+          </span>
+        </div>
+        <div className="animus-seqpanel-bar">
+          <span className="animus-seqpanel-pct">{active.synch}%</span>
+          <span className="animus-seqpanel-meta">
+            <span className="animus-seqpanel-title">{active.title}</span>
+            {(active.date || active.meta) && (
+              <span className="animus-seqpanel-date">{active.date ?? active.meta}</span>
+            )}
+          </span>
         </div>
       </div>
     </div>
