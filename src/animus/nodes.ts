@@ -43,14 +43,18 @@ export const categoryNodes: Record<CategoryId, MemoryNode[]> = {
       kind: 'summary',
     },
   ],
-  education: education.map((edu) => ({
-    id: edu.degree,
-    title: edu.degree,
-    meta: `${edu.school} · ${edu.location}`,
-    date: edu.date,
-    bullets: [edu.detail],
-    synch: synchFor(edu.degree),
-  })),
+  education: education.map((edu) => {
+    const inProgress = edu.degree.includes('Master')
+    return {
+      id: edu.degree,
+      title: edu.degree,
+      meta: `${edu.school} · ${edu.location}`,
+      date: edu.date,
+      tag: inProgress ? 'IN PROGRESS' : 'COMPLETE',
+      bullets: [edu.detail],
+      synch: inProgress ? synchFor(edu.degree) : 100,
+    }
+  }),
   'work-experience': experience.map((job) => ({
     id: `${job.company}-${job.role}`,
     title: `${job.role} — ${job.company}`,

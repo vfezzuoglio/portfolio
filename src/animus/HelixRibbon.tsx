@@ -34,8 +34,8 @@ export function HelixRibbon({ selectedT }: { selectedT: number }) {
       const dy = y1 - y0
       const angle = (Math.atan2(dy, dx) * 180) / Math.PI
 
-      const bulge = 2.4 * Math.sin(t * Math.PI * 2 * 1.9 + 0.4)
-      const thickness = Math.max(3.2, Math.min(8.6, 6 + bulge))
+      const bulge = 3.4 * Math.sin(t * Math.PI * 2 * 1.9 + 0.4)
+      const thickness = Math.max(5, Math.min(13, 9.5 + bulge))
       const length = STEP * 100 * 1.15
 
       const shadowMix = Math.max(0, Math.sin(t * Math.PI * FREQ + PHASE))
