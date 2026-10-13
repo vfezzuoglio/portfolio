@@ -30,10 +30,16 @@ export function HelixView({
       onMouseMove={(e) => {
         const rect = helixRef.current?.getBoundingClientRect()
         if (!rect) return
-        setCursor({
-          x: ((e.clientX - rect.left) / rect.width) * 100,
-          y: ((e.clientY - rect.top) / rect.height) * 100,
-        })
+        const x = ((e.clientX - rect.left) / rect.width) * 100
+        const y = ((e.clientY - rect.top) / rect.height) * 100
+        const strandY = yFor(x / 100)
+        // Only show the glow when the cursor is actually near the strand curve, not anywhere in the panel,
+        // and snap it onto the curve so it reads as lighting up the strand rather than floating nearby.
+        if (Math.abs(y - strandY) < 7) {
+          setCursor({ x, y: strandY })
+        } else {
+          setCursor(null)
+        }
       }}
       onMouseLeave={() => setCursor(null)}
     >

@@ -36,7 +36,7 @@ export function HelixRibbon({ selectedT, opened = false }: { selectedT: number; 
 
       const bulge = 3.4 * Math.sin(t * Math.PI * 2 * 1.9 + 0.4)
       const baseThickness = Math.max(5, Math.min(13, 9.5 + bulge))
-      const length = STEP * 100 * 1.15
+      const length = STEP * 100 * 1.9
 
       const shadowMix = Math.max(0, Math.sin(t * Math.PI * FREQ + PHASE))
       const base = key % 2 === 0 ? GREY_A : GREY_B
@@ -59,10 +59,10 @@ export function HelixRibbon({ selectedT, opened = false }: { selectedT: number; 
   return (
     <g>
       {rungs.map((r) => {
-        // Unit trapezoid (half-thickness 1, so a y-scale of thickness/2 yields the final height),
-        // wider on the trailing edge and narrower on the leading edge for an angular, scale-like plate.
+        // Unit rhombus (half-thickness 1, so a y-scale of thickness/2 yields the final height),
+        // matching the diamond motif used for nodes, breadcrumbs, and background particles.
         const hl = r.length / 2
-        const points = `${-hl},-1 ${hl * 0.66},-0.56 ${hl * 0.66},0.56 ${-hl},1`
+        const points = `0,-1 ${hl},0 0,1 ${-hl},0`
         return (
           <g key={r.key} transform={`translate(${r.x} ${r.y}) rotate(${r.angle})`}>
             <polygon
