@@ -22,6 +22,7 @@ export type MemoryNode = {
   tag?: string
   bullets?: string[]
   tags?: string[]
+  paragraphs?: string[]
   href?: string
   synch: number
   kind?: NodeKind
@@ -51,7 +52,9 @@ export const categoryNodes: Record<CategoryId, MemoryNode[]> = {
       meta: `${edu.school} · ${edu.location}`,
       date: edu.date,
       tag: inProgress ? 'IN PROGRESS' : 'COMPLETE',
-      bullets: [edu.detail],
+      bullets: [edu.detail, ...(edu.activities ?? [])],
+      tags: edu.areas,
+      paragraphs: edu.summary,
       synch: inProgress ? synchFor(edu.degree) : 100,
     }
   }),

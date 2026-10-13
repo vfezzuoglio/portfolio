@@ -9,6 +9,7 @@ export function EntryCard({
   bullets,
   synch,
   tags,
+  paragraphs,
   children,
 }: {
   title?: string
@@ -19,6 +20,7 @@ export function EntryCard({
   bullets?: string[]
   synch?: number
   tags?: string[]
+  paragraphs?: string[]
   children?: ReactNode
 }) {
   return (
@@ -41,6 +43,13 @@ export function EntryCard({
         </div>
       )}
       {meta && <p className="animus-card-meta">{meta}</p>}
+      {paragraphs && (
+        <div className="animus-card-paragraphs">
+          {paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </div>
+      )}
       {bullets && (
         <ul className="animus-bullets">
           {bullets.map((bullet, i) => (

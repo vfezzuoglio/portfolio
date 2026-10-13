@@ -506,6 +506,20 @@
   margin-bottom: 12px;
 }
 
+.animus-card-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.animus-card-paragraphs p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--a-text);
+}
+
 .animus-card-tag {
   display: inline-block;
   font-size: 11px;

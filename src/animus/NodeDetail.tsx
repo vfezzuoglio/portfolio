@@ -112,7 +112,14 @@ export function NodeDetail({ node }: { node: MemoryNode }) {
       return <ReposDetail node={node} />
     default:
       return (
-        <EntryCard meta={node.meta} date={node.date} tag={node.tag} bullets={node.bullets} tags={node.tags}>
+        <EntryCard
+          meta={node.meta}
+          date={node.date}
+          tag={node.tag}
+          paragraphs={node.paragraphs}
+          bullets={node.bullets}
+          tags={node.tags}
+        >
           {node.href && (
             <a className="animus-modal-link" href={node.href} target="_blank" rel="noreferrer">
               View repository ↗
