@@ -35,7 +35,7 @@ export function HelixRibbon({ selectedT }: { selectedT: number }) {
       const angle = (Math.atan2(dy, dx) * 180) / Math.PI
 
       const bulge = 3.4 * Math.sin(t * Math.PI * 2 * 1.9 + 0.4)
-      const thickness = Math.max(5, Math.min(13, 9.5 + bulge))
+      const baseThickness = Math.max(5, Math.min(13, 9.5 + bulge))
       const length = STEP * 100 * 1.15
 
       const shadowMix = Math.max(0, Math.sin(t * Math.PI * FREQ + PHASE))
@@ -46,6 +46,9 @@ export function HelixRibbon({ selectedT }: { selectedT: number }) {
       const redFactor = Math.max(0, 1 - dist / 0.085)
       const redShade = lerpColor(RED_EDGE, RED_CORE, 1 - dist / 0.12)
       const fill = redFactor > 0 ? lerpColor(grey, redShade, Math.pow(redFactor, 1.4)) : grey
+
+      // Selected node's neighborhood swells up to 3x thickness so it reads as clearly "selected", not just red.
+      const thickness = baseThickness * (1 + 2 * Math.pow(redFactor, 0.85))
 
       out.push({ key: key++, x, y, angle, length, thickness, fill })
     }

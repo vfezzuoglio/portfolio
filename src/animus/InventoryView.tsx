@@ -62,7 +62,7 @@ export function InventoryView({
             const hasChildren = !!item.children?.length
             const isExpanded = hasChildren && expandedIndex === index
             return (
-              <li key={item.id}>
+              <li key={item.id} className="animus-inv-li">
                 <button
                   type="button"
                   className={`${index === selectedIndex ? 'is-selected' : ''}${isExpanded ? ' is-expanded' : ''}`}
@@ -80,11 +80,14 @@ export function InventoryView({
                   {hasChildren && <span className="animus-inv-caret" aria-hidden="true" />}
                 </button>
                 {isExpanded && (
-                  <ul className="animus-inv-sublist">
-                    {item.children!.map((child) => (
-                      <li key={child}>{child}</li>
-                    ))}
-                  </ul>
+                  <div className="animus-inv-flyout">
+                    <div className="animus-inv-flyout-head">{item.label}</div>
+                    <ul className="animus-inv-sublist">
+                      {item.children!.map((child) => (
+                        <li key={child}>{child}</li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </li>
             )
