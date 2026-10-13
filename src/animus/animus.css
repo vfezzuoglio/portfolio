@@ -257,13 +257,6 @@
   cursor: pointer;
 }
 
-.animus-boot-eyebrow {
-  font-size: 13px;
-  letter-spacing: 0.4em;
-  color: var(--a-text-dim);
-  text-transform: uppercase;
-}
-
 .animus-boot-title {
   font-family: 'Oxanium', sans-serif;
   font-size: clamp(40px, 8vw, 84px);
@@ -278,45 +271,6 @@
   color: var(--a-text-dim);
   max-width: 520px;
   letter-spacing: 0.04em;
-}
-
-.animus-boot-bar {
-  width: min(480px, 80vw);
-  height: 46px;
-  position: relative;
-  border: 1px solid var(--a-line-strong);
-  background: var(--a-bg-soft);
-  overflow: hidden;
-}
-
-.animus-boot-bar-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--a-red);
-  width: 100%;
-  animation: boot-fill 1.8s ease-out;
-}
-
-@keyframes boot-fill {
-  from {
-    width: 0%;
-  }
-}
-
-.animus-boot-bar-label {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  font-family: 'Oxanium', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--a-white);
-  letter-spacing: 0.08em;
-  mix-blend-mode: difference;
 }
 
 .animus-boot-enter {

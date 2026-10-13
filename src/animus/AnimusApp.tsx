@@ -147,16 +147,8 @@ export function AnimusApp() {
               tabIndex={0}
               aria-label="Enter database"
             >
-              <span className="animus-boot-eyebrow">Animus Profile Loaded</span>
               <h1 className="animus-boot-title">{profile.name}</h1>
               <p className="animus-boot-subtitle">{profile.title}</p>
-              <div className="animus-boot-bar">
-                <div className="animus-boot-bar-fill" />
-                <div className="animus-boot-bar-label">
-                  <span>SYNCHRONIZATION</span>
-                  <span>100%</span>
-                </div>
-              </div>
               <span className="animus-boot-enter">PRESS ENTER TO ACCESS DATABASE</span>
             </div>
           )}
@@ -272,7 +264,7 @@ export function AnimusApp() {
           <div className="animus-breadcrumb">
             <span className="animus-diamond" />
             <button type="button" onClick={backToBoot} disabled={screen === 'boot'}>
-              ANIMUS DESKTOP
+              HOME
             </button>
             {screen !== 'boot' && (
               <>

@@ -23,7 +23,7 @@ export function synchFor(seed: string): number {
 }
 
 export const categories: Category[] = [
-  { id: 'summary', label: 'SUMMARY', description: 'Profile overview and current synchronization status.' },
+  { id: 'summary', label: 'SUMMARY', description: 'Profile overview.' },
   { id: 'education', label: 'EDUCATION', description: 'Academic record.' },
   { id: 'work-experience', label: 'WORK EXPERIENCE', description: 'Professional engagements, by role and timeframe.' },
   { id: 'volunteer', label: 'VOLUNTEER', description: 'Unpaid engagements and community contributions.' },
