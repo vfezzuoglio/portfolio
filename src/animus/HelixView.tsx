@@ -31,20 +31,31 @@ export function HelixView({
           const y = yFor(t)
           const isSelected = index === selectedIndex
           return (
-            <button
+            <span
               key={node.id}
-              type="button"
               className={`animus-helix-node${isSelected ? ' is-selected' : ''}`}
               style={{ left: `${x}%`, top: `${y}%` }}
-              onMouseEnter={() => onHoverNode(index)}
-              onFocus={() => onHoverNode(index)}
-              onClick={() => onOpenNode(index)}
-              aria-label={node.title}
+              aria-hidden="true"
             >
               <span className="animus-helix-marker" />
-            </button>
+            </span>
           )
         })}
+      </div>
+
+      <div className="animus-helix-hitzones">
+        {nodes.map((node, index) => (
+          <button
+            key={node.id}
+            type="button"
+            className="animus-helix-hitzone"
+            style={{ width: `${100 / nodes.length}%` }}
+            onMouseEnter={() => onHoverNode(index)}
+            onFocus={() => onHoverNode(index)}
+            onClick={() => onOpenNode(index)}
+            aria-label={node.title}
+          />
+        ))}
       </div>
 
       <div className="animus-seqpanel">

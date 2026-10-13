@@ -689,13 +689,10 @@
 .animus-helix-node {
   position: absolute;
   transform: translate(-50%, -50%);
-  background: none;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: none;
 }
 
 .animus-helix-marker {
@@ -706,10 +703,6 @@
   background: var(--a-bg-soft);
   transform: rotate(45deg);
   transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-}
-
-.animus-helix-node:hover .animus-helix-marker {
-  border-color: var(--a-red);
 }
 
 .animus-helix-node.is-selected .animus-helix-marker {
@@ -726,6 +719,21 @@
   width: 1px;
   height: 16px;
   background: var(--a-red);
+}
+
+.animus-helix-hitzones {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.animus-helix-hitzone {
+  height: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
 }
 
 /* ---------- sequence panel (fixed, bottom-left of helix) ---------- */
