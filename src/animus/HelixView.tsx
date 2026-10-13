@@ -44,16 +44,8 @@ export function HelixView({
       onMouseLeave={() => setCursor(null)}
     >
       <svg className="animus-helix-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <HelixRibbon selectedT={selectedT} opened={opened} />
+        <HelixRibbon selectedT={selectedT} opened={opened} cursor={cursor} />
       </svg>
-
-      {cursor && (
-        <div
-          className="animus-helix-cursor-glow"
-          style={{ left: `${cursor.x}%`, top: `${cursor.y}%` }}
-          aria-hidden="true"
-        />
-      )}
 
       <div className="animus-helix-nodes">
         {nodes.map((node, index) => {

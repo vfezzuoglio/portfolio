@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useId, useMemo } from 'react'
 import { FREQ, PHASE, lerpColor, yFor } from './helixMath'
 
 const T_START = -0.16
@@ -20,7 +20,17 @@ type Rung = {
   fill: string
 }
 
-export function HelixRibbon({ selectedT, opened = false }: { selectedT: number; opened?: boolean }) {
+export function HelixRibbon({
+  selectedT,
+  opened = false,
+  cursor,
+}: {
+  selectedT: number
+  opened?: boolean
+  cursor?: { x: number; y: number } | null
+}) {
+  const clipId = useId()
+  const glowId = useId()
   const rungs = useMemo<Rung[]>(() => {
     const eps = 0.004
     const out: Rung[] = []
@@ -56,24 +66,52 @@ export function HelixRibbon({ selectedT, opened = false }: { selectedT: number; 
     return out
   }, [selectedT, opened])
 
+  // Unit rhombus (half-thickness 1, so a y-scale of thickness/2 yields the final height),
+  // matching the diamond motif used for nodes, breadcrumbs, and background particles.
+  const shapes = rungs.map((r) => {
+    const hl = r.length / 2
+    return { ...r, points: `0,-1 ${hl},0 0,1 ${-hl},0` }
+  })
+
   return (
     <g>
-      {rungs.map((r) => {
-        // Unit rhombus (half-thickness 1, so a y-scale of thickness/2 yields the final height),
-        // matching the diamond motif used for nodes, breadcrumbs, and background particles.
-        const hl = r.length / 2
-        const points = `0,-1 ${hl},0 0,1 ${-hl},0`
-        return (
+      <defs>
+        <radialGradient id={glowId}>
+          <stop offset="0%" stopColor="#e8384f" stopOpacity="0.85" />
+          <stop offset="55%" stopColor="#e8384f" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#e8384f" stopOpacity="0" />
+        </radialGradient>
+        <clipPath id={clipId}>
+          {shapes.map((r) => (
+            <g key={r.key} transform={`translate(${r.x} ${r.y}) rotate(${r.angle})`}>
+              <polygon points={r.points} style={{ transform: `scaleY(${r.thickness / 2})` }} />
+            </g>
+          ))}
+        </clipPath>
+      </defs>
+
+      <g>
+        {shapes.map((r) => (
           <g key={r.key} transform={`translate(${r.x} ${r.y}) rotate(${r.angle})`}>
             <polygon
               className="animus-helix-rung"
-              points={points}
+              points={r.points}
               fill={r.fill}
               style={{ transform: `scaleY(${r.thickness / 2})` }}
             />
           </g>
-        )
-      })}
+        ))}
+      </g>
+
+      {cursor && (
+        <circle
+          cx={cursor.x}
+          cy={cursor.y}
+          r={14}
+          fill={`url(#${glowId})`}
+          clipPath={`url(#${clipId})`}
+        />
+      )}
     </g>
   )
 }
