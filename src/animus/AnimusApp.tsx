@@ -227,7 +227,7 @@ export function AnimusApp() {
           {screen === 'category' && activeCategory.id === 'skills' && (
             <InventoryView
               headerLabel={activeCategory.label}
-              sidebarItems={nodes.map((n) => ({ id: n.id, label: n.title }))}
+              sidebarItems={nodes.map((n) => ({ id: n.id, label: n.title, children: n.skillItems }))}
               selectedIndex={nodeIndex}
               onSelect={setNodeIndex}
               chips={(activeNode.skillItems ?? []).map((item) => ({ key: item, label: item }))}

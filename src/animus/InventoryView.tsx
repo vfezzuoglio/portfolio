@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 function hashStr(s: string) {
   let h = 0
@@ -23,7 +23,7 @@ function scatterPosition(key: string, index: number, count: number) {
   }
 }
 
-export type InventorySidebarItem = { id: string; label: string }
+export type InventorySidebarItem = { id: string; label: string; children?: string[] }
 export type InventoryChip = { key: string; label: string; sublabel?: string; active?: boolean }
 
 export function InventoryView({
@@ -39,6 +39,8 @@ export function InventoryView({
   onSelect: (index: number) => void
   chips: InventoryChip[]
 }) {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+
   const positioned = useMemo(
     () => chips.map((chip, i) => ({ chip, pos: scatterPosition(chip.key, i, chips.length) })),
     [chips],
@@ -56,20 +58,37 @@ export function InventoryView({
           {headerLabel}
         </div>
         <ul className="animus-inv-list">
-          {sidebarItems.map((item, index) => (
-            <li key={item.id}>
-              <button
-                type="button"
-                className={index === selectedIndex ? 'is-selected' : ''}
-                onMouseEnter={() => onSelect(index)}
-                onFocus={() => onSelect(index)}
-                onClick={() => onSelect(index)}
-              >
-                <span className="animus-diamond" />
-                {item.label}
-              </button>
-            </li>
-          ))}
+          {sidebarItems.map((item, index) => {
+            const hasChildren = !!item.children?.length
+            const isExpanded = hasChildren && expandedIndex === index
+            return (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  className={`${index === selectedIndex ? 'is-selected' : ''}${isExpanded ? ' is-expanded' : ''}`}
+                  onMouseEnter={() => onSelect(index)}
+                  onFocus={() => onSelect(index)}
+                  onClick={() => {
+                    onSelect(index)
+                    if (hasChildren) {
+                      setExpandedIndex((current) => (current === index ? null : index))
+                    }
+                  }}
+                >
+                  <span className="animus-diamond" />
+                  {item.label}
+                  {hasChildren && <span className="animus-inv-caret" aria-hidden="true" />}
+                </button>
+                {isExpanded && (
+                  <ul className="animus-inv-sublist">
+                    {item.children!.map((child) => (
+                      <li key={child}>{child}</li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            )
+          })}
         </ul>
       </div>
 
