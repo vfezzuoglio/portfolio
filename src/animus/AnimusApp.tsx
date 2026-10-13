@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import './animus.css'
 import { AnimusBackground } from './AnimusBackground'
+import { DatabaseArticle } from './DatabaseArticle'
 import { DatabaseMenu } from './DatabaseMenu'
 import { HelixView } from './HelixView'
 import { NodeDetailModal } from './NodeDetailModal'
@@ -9,6 +10,8 @@ import { categoryNodes } from './nodes'
 import { profile } from '../data/resume'
 
 type Screen = 'boot' | 'database' | 'category'
+
+const ARTICLE_CATEGORIES = new Set(['summary', 'contact'])
 
 export function AnimusApp() {
   const [screen, setScreen] = useState<Screen>('boot')
@@ -19,6 +22,7 @@ export function AnimusApp() {
   const activeCategory = categories[categoryIndex]
   const nodes = categoryNodes[activeCategory.id]
   const activeNode = nodes[nodeIndex]
+  const isArticle = ARTICLE_CATEGORIES.has(activeCategory.id)
 
   const openDatabase = useCallback(() => setScreen('database'), [])
   const openCategory = useCallback((index: number) => {
@@ -60,6 +64,13 @@ export function AnimusApp() {
         return
       }
       if (screen === 'category') {
+        if (isArticle) {
+          if (e.key === 'Backspace' || e.key === 'Escape') {
+            e.preventDefault()
+            backToDatabase()
+          }
+          return
+        }
         if (opened) {
           if (e.key === 'Backspace' || e.key === 'Escape') {
             e.preventDefault()
@@ -84,7 +95,18 @@ export function AnimusApp() {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [screen, opened, categoryIndex, nodes.length, openDatabase, openCategory, backToDatabase, backToBoot, backToHelix])
+  }, [
+    screen,
+    opened,
+    categoryIndex,
+    nodes.length,
+    isArticle,
+    openDatabase,
+    openCategory,
+    backToDatabase,
+    backToBoot,
+    backToHelix,
+  ])
 
   return (
     <div className="animus-root">
@@ -126,7 +148,66 @@ export function AnimusApp() {
             <DatabaseMenu selectedIndex={categoryIndex} onHover={setCategoryIndex} onSelect={openCategory} />
           )}
 
-          {screen === 'category' && (
+          {screen === 'category' && activeCategory.id === 'summary' && (
+            <DatabaseArticle categoryLabel={activeCategory.label} title={profile.title} body={profile.blurb}>
+              <div className="animus-contact-grid">
+                <a className="animus-contact-link" href={`mailto:${profile.email}`}>
+                  <span className="label">Email</span>
+                  <span className="value">{profile.email}</span>
+                </a>
+                <a className="animus-contact-link" href={profile.linkedin} target="_blank" rel="noreferrer">
+                  <span className="label">LinkedIn</span>
+                  <span className="value">linkedin.com/in/vincent-fezzuoglio</span>
+                </a>
+                <a className="animus-contact-link" href={profile.github} target="_blank" rel="noreferrer">
+                  <span className="label">GitHub</span>
+                  <span className="value">github.com/vfezzuoglio</span>
+                </a>
+              </div>
+            </DatabaseArticle>
+          )}
+
+          {screen === 'category' && activeCategory.id === 'contact' && (
+            <DatabaseArticle
+              categoryLabel={activeCategory.label}
+              title="Get in Touch"
+              body="I'm always open to discussing new opportunities, projects, or just talking shop. Reach out through any of the channels below."
+            >
+              <div className="animus-contact-grid">
+                <a className="animus-contact-link" href={`mailto:${profile.email}`}>
+                  <span className="label">Transmit Message</span>
+                  <span className="value">{profile.email}</span>
+                </a>
+                <a className="animus-contact-link" href={`tel:${profile.phone.replace(/[^\d+]/g, '')}`}>
+                  <span className="label">Direct Channel</span>
+                  <span className="value">{profile.phone}</span>
+                </a>
+                <a className="animus-contact-link" href={profile.linkedin} target="_blank" rel="noreferrer">
+                  <span className="label">LinkedIn</span>
+                  <span className="value">vincent-fezzuoglio</span>
+                </a>
+                <a className="animus-contact-link" href={profile.github} target="_blank" rel="noreferrer">
+                  <span className="label">GitHub</span>
+                  <span className="value">vfezzuoglio</span>
+                </a>
+                <a
+                  className="animus-contact-link"
+                  href={`https://${profile.website}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="label">Network Node</span>
+                  <span className="value">{profile.website}</span>
+                </a>
+                <a className="animus-contact-link" href="/Vincent_Fezzuoglio_Resume.pdf" target="_blank" rel="noreferrer">
+                  <span className="label">Dossier</span>
+                  <span className="value">Download résumé</span>
+                </a>
+              </div>
+            </DatabaseArticle>
+          )}
+
+          {screen === 'category' && !isArticle && (
             <HelixView
               categoryLabel={activeCategory.label}
               nodes={nodes}
@@ -140,7 +221,7 @@ export function AnimusApp() {
           )}
         </div>
 
-        {screen === 'category' && opened && (
+        {screen === 'category' && !isArticle && opened && (
           <NodeDetailModal node={activeNode} categoryLabel={activeCategory.label} onClose={backToHelix} />
         )}
 
@@ -194,7 +275,12 @@ export function AnimusApp() {
                 </span>
               </>
             )}
-            {screen === 'category' && !opened && (
+            {screen === 'category' && isArticle && (
+              <span className="animus-key">
+                <kbd>Backspace</kbd> Back
+              </span>
+            )}
+            {screen === 'category' && !isArticle && !opened && (
               <>
                 <span className="animus-key">
                   <kbd>←→</kbd> Navigate
@@ -207,7 +293,7 @@ export function AnimusApp() {
                 </span>
               </>
             )}
-            {screen === 'category' && opened && (
+            {screen === 'category' && !isArticle && opened && (
               <span className="animus-key">
                 <kbd>Backspace</kbd> Back
               </span>
