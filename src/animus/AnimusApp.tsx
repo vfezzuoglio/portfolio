@@ -4,6 +4,7 @@ import { AnimusBackground } from './AnimusBackground'
 import { DatabaseArticle } from './DatabaseArticle'
 import { DatabaseMenu } from './DatabaseMenu'
 import { HelixView } from './HelixView'
+import { InventoryView } from './InventoryView'
 import { NodeDetailModal } from './NodeDetailModal'
 import { categories } from './data'
 import { categoryNodes } from './nodes'
@@ -12,6 +13,7 @@ import { profile } from '../data/resume'
 type Screen = 'boot' | 'database' | 'category'
 
 const ARTICLE_CATEGORIES = new Set(['summary', 'contact'])
+const INVENTORY_CATEGORIES = new Set(['skills', 'certifications'])
 
 export function AnimusApp() {
   const [screen, setScreen] = useState<Screen>('boot')
@@ -23,6 +25,7 @@ export function AnimusApp() {
   const nodes = categoryNodes[activeCategory.id]
   const activeNode = nodes[nodeIndex]
   const isArticle = ARTICLE_CATEGORIES.has(activeCategory.id)
+  const isInventory = INVENTORY_CATEGORIES.has(activeCategory.id)
 
   const openDatabase = useCallback(() => setScreen('database'), [])
   const openCategory = useCallback((index: number) => {
@@ -71,6 +74,19 @@ export function AnimusApp() {
           }
           return
         }
+        if (isInventory) {
+          if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            setNodeIndex((i) => Math.min(i + 1, nodes.length - 1))
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault()
+            setNodeIndex((i) => Math.max(i - 1, 0))
+          } else if (e.key === 'Backspace' || e.key === 'Escape') {
+            e.preventDefault()
+            backToDatabase()
+          }
+          return
+        }
         if (opened) {
           if (e.key === 'Backspace' || e.key === 'Escape') {
             e.preventDefault()
@@ -101,6 +117,7 @@ export function AnimusApp() {
     categoryIndex,
     nodes.length,
     isArticle,
+    isInventory,
     openDatabase,
     openCategory,
     backToDatabase,
@@ -207,7 +224,32 @@ export function AnimusApp() {
             </DatabaseArticle>
           )}
 
-          {screen === 'category' && !isArticle && (
+          {screen === 'category' && activeCategory.id === 'skills' && (
+            <InventoryView
+              headerLabel={activeCategory.label}
+              sidebarItems={nodes.map((n) => ({ id: n.id, label: n.title }))}
+              selectedIndex={nodeIndex}
+              onSelect={setNodeIndex}
+              chips={(activeNode.skillItems ?? []).map((item) => ({ key: item, label: item }))}
+            />
+          )}
+
+          {screen === 'category' && activeCategory.id === 'certifications' && (
+            <InventoryView
+              headerLabel={activeCategory.label}
+              sidebarItems={nodes.map((n) => ({ id: n.id, label: n.title }))}
+              selectedIndex={nodeIndex}
+              onSelect={setNodeIndex}
+              chips={nodes.map((n, i) => ({
+                key: n.id,
+                label: n.title,
+                sublabel: n.date,
+                active: i === nodeIndex,
+              }))}
+            />
+          )}
+
+          {screen === 'category' && !isArticle && !isInventory && (
             <HelixView
               categoryLabel={activeCategory.label}
               nodes={nodes}
@@ -221,7 +263,7 @@ export function AnimusApp() {
           )}
         </div>
 
-        {screen === 'category' && !isArticle && opened && (
+        {screen === 'category' && !isArticle && !isInventory && opened && (
           <NodeDetailModal node={activeNode} categoryLabel={activeCategory.label} onClose={backToHelix} />
         )}
 
@@ -275,12 +317,19 @@ export function AnimusApp() {
                 </span>
               </>
             )}
-            {screen === 'category' && isArticle && (
-              <span className="animus-key">
-                <kbd>Backspace</kbd> Back
-              </span>
+            {screen === 'category' && (isArticle || isInventory) && (
+              <>
+                {isInventory && (
+                  <span className="animus-key">
+                    <kbd>↑↓</kbd> Navigate
+                  </span>
+                )}
+                <span className="animus-key">
+                  <kbd>Backspace</kbd> Back
+                </span>
+              </>
             )}
-            {screen === 'category' && !isArticle && !opened && (
+            {screen === 'category' && !isArticle && !isInventory && !opened && (
               <>
                 <span className="animus-key">
                   <kbd>←→</kbd> Navigate
@@ -293,7 +342,7 @@ export function AnimusApp() {
                 </span>
               </>
             )}
-            {screen === 'category' && !isArticle && opened && (
+            {screen === 'category' && !isArticle && !isInventory && opened && (
               <span className="animus-key">
                 <kbd>Backspace</kbd> Back
               </span>

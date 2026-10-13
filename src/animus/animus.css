@@ -1002,6 +1002,166 @@
   }
 }
 
+/* ---------- inventory (skills / certifications) ---------- */
+
+.animus-inventory {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 48px;
+  min-height: 420px;
+}
+
+.animus-inv-sidebar {
+  flex: 0 0 auto;
+  width: min(360px, 100%);
+  padding-top: 8px;
+}
+
+.animus-inv-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #1a1b1f;
+  color: #f2f2f3;
+  padding: 12px 18px;
+  font-family: 'Oxanium', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.animus-inv-stack {
+  position: relative;
+  width: 22px;
+  height: 18px;
+  flex: none;
+}
+
+.animus-inv-stack span {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--a-red);
+  background: rgba(200, 22, 31, 0.25);
+}
+
+.animus-inv-stack span:nth-child(1) {
+  transform: translate(0, 4px);
+  opacity: 0.5;
+}
+.animus-inv-stack span:nth-child(2) {
+  transform: translate(2px, 2px);
+  opacity: 0.75;
+}
+.animus-inv-stack span:nth-child(3) {
+  transform: translate(4px, 0);
+}
+
+.animus-inv-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.animus-inv-list button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  background: var(--a-bg-soft);
+  border: none;
+  border-bottom: 1px solid var(--a-line);
+  padding: 13px 18px;
+  font: inherit;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: var(--a-text);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.animus-inv-list button .animus-diamond {
+  border-color: var(--a-text-dim);
+  transition: border-color 0.15s ease;
+}
+
+.animus-inv-list button:hover,
+.animus-inv-list button.is-selected {
+  background: var(--a-red);
+  color: #fff;
+}
+
+.animus-inv-list button:hover .animus-diamond,
+.animus-inv-list button.is-selected .animus-diamond {
+  border-color: #fff;
+}
+
+.animus-inv-scatter {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.animus-inv-chip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform-origin: left center;
+  width: max-content;
+  max-width: 230px;
+}
+
+.animus-inv-chip.anchor-end {
+  flex-direction: row-reverse;
+  transform-origin: right center;
+}
+
+.animus-inv-chip-marker {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--a-line-strong);
+  transform: rotate(45deg);
+}
+
+.animus-inv-chip.is-active .animus-inv-chip-marker {
+  border-color: var(--a-red);
+  background: var(--a-red);
+}
+
+.animus-inv-chip-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--a-panel);
+  border: 1px solid var(--a-line);
+  padding: 6px 12px;
+  backdrop-filter: blur(4px);
+}
+
+.animus-inv-chip-label {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--a-text-dim);
+}
+
+.animus-inv-chip.is-active .animus-inv-chip-label {
+  color: var(--a-red);
+}
+
+.animus-inv-chip.anchor-end .animus-inv-chip-text {
+  text-align: right;
+}
+
+.animus-inv-chip-sublabel {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--a-text-dim);
+}
+
 @media (max-width: 860px) {
   .animus-database {
     flex-direction: column;
@@ -1031,5 +1191,18 @@
   }
   .animus-modal {
     padding: 22px 20px 24px;
+  }
+  .animus-inventory {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .animus-inv-sidebar {
+    width: 100%;
+  }
+  .animus-inv-scatter {
+    min-height: 440px;
+  }
+  .animus-inv-chip {
+    max-width: 150px;
   }
 }
