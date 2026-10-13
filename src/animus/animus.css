@@ -695,6 +695,10 @@
   height: 100%;
 }
 
+.animus-helix-rung {
+  transition: width 0.3s ease, height 0.3s ease, x 0.3s ease, y 0.3s ease, rx 0.3s ease, fill 0.3s ease;
+}
+
 .animus-helix-nodes {
   position: absolute;
   inset: 0;

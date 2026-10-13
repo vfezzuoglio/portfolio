@@ -8,12 +8,14 @@ export function HelixView({
   selectedIndex,
   onHoverNode,
   onOpenNode,
+  opened = false,
 }: {
   categoryLabel: string
   nodes: MemoryNode[]
   selectedIndex: number
   onHoverNode: (index: number) => void
   onOpenNode: (index: number) => void
+  opened?: boolean
 }) {
   const active = nodes[selectedIndex]
   const selectedT = nodeT(selectedIndex, nodes.length)
@@ -21,7 +23,7 @@ export function HelixView({
   return (
     <div className="animus-helix">
       <svg className="animus-helix-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <HelixRibbon selectedT={selectedT} />
+        <HelixRibbon selectedT={selectedT} opened={opened} />
       </svg>
 
       <div className="animus-helix-nodes">

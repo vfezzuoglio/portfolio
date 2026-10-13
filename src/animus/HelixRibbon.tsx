@@ -20,7 +20,7 @@ type Rung = {
   fill: string
 }
 
-export function HelixRibbon({ selectedT }: { selectedT: number }) {
+export function HelixRibbon({ selectedT, opened = false }: { selectedT: number; opened?: boolean }) {
   const rungs = useMemo<Rung[]>(() => {
     const eps = 0.004
     const out: Rung[] = []
@@ -47,19 +47,21 @@ export function HelixRibbon({ selectedT }: { selectedT: number }) {
       const redShade = lerpColor(RED_EDGE, RED_CORE, 1 - dist / 0.12)
       const fill = redFactor > 0 ? lerpColor(grey, redShade, Math.pow(redFactor, 1.4)) : grey
 
-      // Selected node's neighborhood swells up to 3x thickness so it reads as clearly "selected", not just red.
-      const thickness = baseThickness * (1 + 2 * Math.pow(redFactor, 0.85))
+      // Selected node's neighborhood swells 1.5x while just highlighted, and up to 3x once opened.
+      const maxGrowth = opened ? 2 : 0.5
+      const thickness = baseThickness * (1 + maxGrowth * Math.pow(redFactor, 0.85))
 
       out.push({ key: key++, x, y, angle, length, thickness, fill })
     }
     return out
-  }, [selectedT])
+  }, [selectedT, opened])
 
   return (
     <g>
       {rungs.map((r) => (
         <g key={r.key} transform={`translate(${r.x} ${r.y}) rotate(${r.angle})`}>
           <rect
+            className="animus-helix-rung"
             x={-r.length / 2}
             y={-r.thickness / 2}
             width={r.length}
