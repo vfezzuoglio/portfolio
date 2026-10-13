@@ -83,9 +83,11 @@ export function HelixRibbon({
         </radialGradient>
         <clipPath id={clipId}>
           {shapes.map((r) => (
-            <g key={r.key} transform={`translate(${r.x} ${r.y}) rotate(${r.angle})`}>
-              <polygon points={r.points} style={{ transform: `scaleY(${r.thickness / 2})` }} />
-            </g>
+            <polygon
+              key={r.key}
+              points={r.points}
+              transform={`translate(${r.x} ${r.y}) rotate(${r.angle}) scale(1 ${r.thickness / 2})`}
+            />
           ))}
         </clipPath>
       </defs>
