@@ -5,27 +5,19 @@ export const profile = {
   phone: '(845) 309-5272',
   linkedin: 'https://www.linkedin.com/in/vincent-fezzuoglio/',
   github: 'https://github.com/vfezzuoglio',
-  title: 'Backend Software Engineer',
+  website: 'fezzuoglio.com',
+  title: 'Software Engineer | Backend & Full-Stack',
   blurb:
-    "I'm a backend-focused software engineer building payment infrastructure, APIs, and AI-powered applications. Currently pursuing an MS in Computer Science at Pace University while working full-time as a Backend Software Engineer.",
+    'Software Engineer with production experience building Stripe Connect payment systems, multi-tenant backends, and React Native mobile apps. M.S. Computer Science candidate with a 4.00 GPA and full-stack, AI/LLM integration, and C++ systems-programming experience.',
 }
 
 export const skills = {
-  Languages: ['Python', 'Go', 'TypeScript', 'JavaScript (ES6+)', 'C#', 'C++', 'Java'],
-  Frontend: ['React', 'React Native', 'HTML5', 'CSS3'],
-  'Backend & Systems': [
-    'Node.js',
-    'Express',
-    'FastAPI',
-    'ASP.NET Core',
-    'REST APIs',
-    'Claude API',
-    'RAG',
-    'Embeddings',
-  ],
-  'Cloud & DevOps': ['AWS', 'Azure', 'Docker', 'CI/CD', 'Git', 'Claude Code', 'Supabase'],
-  'Libraries & Databases': ['PostgreSQL', 'MySQL', 'SQL Server', 'MongoDB'],
-  Testing: ['Jest', 'Postman API Testing'],
+  Languages: ['Python', 'TypeScript', 'JavaScript', 'C#', 'C++', 'Go', 'SQL'],
+  'Backend and APIs': ['FastAPI', 'Node.js', 'Express.js', 'ASP.NET Core', 'REST APIs', 'JWT', 'Stripe Connect'],
+  'Frontend and Mobile': ['React', 'React Native', 'Tailwind CSS', 'HTML5', 'CSS3'],
+  'Databases and AI': ['PostgreSQL', 'SQL Server', 'Supabase', 'pgvector', 'RAG', 'Embeddings'],
+  'Cloud and DevOps': ['AWS', 'Azure', 'Netlify', 'Docker', 'Docker Compose', 'CI/CD', 'Git', 'GitHub'],
+  Tools: ['Claude API', 'Gemini API', 'OpenRouter', 'sentence-transformers', 'Jest', 'Postman', 'Alembic', 'Swagger/OpenAPI'],
 }
 
 export const education = [
@@ -55,13 +47,14 @@ export const experience = [
   {
     company: 'WRTH',
     location: 'Remote, USA',
-    role: 'Backend Software Engineer',
+    role: 'Backend Software Engineer (Full-Time Contract)',
     date: 'May 2026 — Present',
     bullets: [
-      'Built Stripe and Stripe Connect payment infrastructure for a live auction platform, implementing vendor onboarding, payout routing, Checkout Sessions, and transaction safeguards.',
-      'Developed and shipped an Android NFC Companion App using React Native, Supabase authentication, Row Level Security (RLS), and NDEF tag read/write functionality for live-event operations.',
-      'Designed idempotent checkout processing and payable-amount validation to prevent duplicate and invalid charges during concurrent bidding activity.',
-      'Built and launched AI-powered applications for live events, generating 100 personalized FIFA attendee cards and enabling 100 head-to-head battles through an interactive cosplay experience using OpenRouter and Google Wallet.',
+      'Built Stripe Connect payment workflows in TypeScript and Node.js with checkout idempotency and payable-amount validation; engineered a multi-tenant Supabase PostgreSQL backend for merchant inventory, role-based access, and orders, deployed on Netlify.',
+      'Shipped an Android NFC companion app in React Native with Supabase PostgreSQL row-level security and NDEF read/write tag operations.',
+      'Built three AI live-event activations in TypeScript and PostgreSQL using Claude Code and the Claude, Gemini, and OpenRouter APIs; added Google Wallet and head-to-head battles for 100 attendees.',
+      'Hardened a Python pipeline spanning Google Lens, voting, and pricing; added six-format pattern matching, AI vision verification, an eight-category classifier with regression tests, and eBay and StockX integrations.',
+      'Collaborated with product and engineering teams to deliver backend features, participated in pull requests and peer code reviews, and improved software reliability through automated testing.',
     ],
   },
   {
@@ -70,7 +63,8 @@ export const experience = [
     role: 'Store Manager',
     date: 'Nov 2020 — Present',
     bullets: [
-      'Lead daily operations and a four-person sales team, overseeing training, performance, scheduling, and customer escalations while maintaining strong customer retention and service standards.',
+      'Lead and train a team of four associates; manage hiring, scheduling, inventory, and loss prevention.',
+      'Exceed sales targets by more than 10% while managing daily store operations and customer experience.',
     ],
   },
 ]
@@ -79,11 +73,10 @@ export const volunteer = [
   {
     company: "Aunt Mary's Storybook – Companions Journeying Together",
     location: 'Remote, USA',
-    role: 'Volunteer Software Developer',
+    role: 'Software Developer (Volunteer)',
     date: 'Aug 2025 — Feb 2026',
     bullets: [
-      'Resolved 15+ bugs across authentication, data validation, and role-based workflows using DevTools, logging, and API testing, improving application stability and reliability.',
-      'Optimized SQL queries and developed 5+ backend features in CodeIgniter 4 (MVC), improving performance and scalability for large datasets.',
+      'Resolved 15+ authentication and role-based workflow defects, optimized SQL queries, and delivered 5+ backend features in CodeIgniter 4 using MVC architecture.',
     ],
   },
 ]
@@ -102,26 +95,34 @@ export const projects = [
   },
   {
     name: 'Document Analysis API',
-    subtitle: 'Backend API',
-    stack: ['FastAPI', 'Azure', 'PostgreSQL'],
+    subtitle: 'Full-Stack PDF Analysis',
+    stack: ['FastAPI', 'PostgreSQL', 'React', 'Docker', 'Claude API'],
     date: 'Feb 2026 — April 2026',
     github: 'https://github.com/vfezzuoglio/document-analysis-api',
     bullets: [
-      'Built REST API for document upload and text extraction using FastAPI and Docker for scalable document processing.',
-      'Designed a secure JWT-based authentication layer and modular service architecture for maintainable, extensible backend logic.',
-      'Developed AI-ready backend services for document analysis, embeddings, generative AI workflows, and RAG-based processing using FastAPI and PostgreSQL.',
+      'Built a full-stack PDF analysis application with a FastAPI REST API and React/Tailwind frontend; stored uploaded PDFs in PostgreSQL to support per-document question answering.',
+      'Implemented JWT/bcrypt authentication, Alembic migrations, and a Docker Compose stack for the API, web client, and PostgreSQL.',
     ],
   },
   {
     name: 'CyberWatch',
     subtitle: 'AI-Powered Cybersecurity News Curator',
-    stack: ['Go', 'React', 'Anthropic Claude API', 'Docker'],
-    date: 'April 2026',
+    stack: ['Go', 'React', 'Claude Code', 'Claude API', 'Docker'],
+    date: 'Mar 2026 — April 2026',
     github: 'https://github.com/vfezzuoglio/cyberwatchnews',
     bullets: [
-      'Built a full-stack AI-powered news aggregation platform with a Go backend and React frontend, integrating the Anthropic Claude API to retrieve, analyze, categorize, and summarize recent cybersecurity news.',
-      'Designed backend API functionality with server-side caching and rate limiting to reduce external API usage, prevent abuse, and improve application reliability.',
-      'Containerized the frontend and backend using Docker and Docker Compose, with error handling for external API and network failures.',
+      'Built a Go and React cybersecurity news platform using Claude API for retrieval, analysis, categorization, and summaries; added caching, rate limiting, error handling, and Docker deployment.',
+    ],
+  },
+  {
+    name: 'Game Boy Emulator',
+    subtitle: 'Cycle-Accurate Emulation',
+    stack: ['C++', 'CMake', 'SDL2'],
+    date: 'April 2026 — August 2026',
+    github: 'https://github.com/vfezzuoglio/GameboyEmulator',
+    bullets: [
+      'Built a Game Boy emulator from scratch in C++, implementing all 512 SM83 CPU opcodes, memory management, interrupts, timers, DMA, input, and MBC1 bank switching.',
+      'Implemented PPU graphics rendering and validated CPU correctness against the Blargg test suite, passing all 11 cpu_instrs tests.',
     ],
   },
 ]
@@ -138,7 +139,6 @@ export type Repo = {
 export const otherRepos: Repo[] = [
   { name: 'instaclone-fullstack', url: 'https://github.com/vfezzuoglio/instaclone-fullstack', language: 'JavaScript', updated: 'May 8' },
   { name: 'school-admin-platform', url: 'https://github.com/vfezzuoglio/school-admin-platform', language: 'C#', updated: 'May 5' },
-  { name: 'GameboyEmulator', url: 'https://github.com/vfezzuoglio/GameboyEmulator', language: 'C++', updated: 'Apr 22' },
   { name: 'algorithms-computing-theory-breast-cancer-graphs', url: 'https://github.com/vfezzuoglio/algorithms-computing-theory-breast-cancer-graphs' },
   { name: 'ParallelComputingCStar', url: 'https://github.com/vfezzuoglio/ParallelComputingCStar' },
   { name: 'Project-Redo-Adventure-Game', url: 'https://github.com/vfezzuoglio/Project-Redo-Adventure-Game', language: 'C#', updated: 'Dec 19, 2023' },
