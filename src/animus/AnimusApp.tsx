@@ -11,6 +11,7 @@ import { categories } from './data'
 import { categoryNodes } from './nodes'
 import { profile } from '../data/resume'
 import { useTheme } from '../hooks/useTheme'
+import { withViewTransition } from './viewTransition'
 
 type Screen = 'boot' | 'database' | 'category'
 
@@ -30,18 +31,22 @@ export function AnimusApp() {
   const isArticle = ARTICLE_CATEGORIES.has(activeCategory.id)
   const isInventory = INVENTORY_CATEGORIES.has(activeCategory.id)
 
-  const openDatabase = useCallback(() => setScreen('database'), [])
+  const openDatabase = useCallback(() => withViewTransition(() => setScreen('database')), [])
   const openCategory = useCallback((index: number) => {
-    setCategoryIndex(index)
-    setNodeIndex(0)
-    setOpened(false)
-    setScreen('category')
+    withViewTransition(() => {
+      setCategoryIndex(index)
+      setNodeIndex(0)
+      setOpened(false)
+      setScreen('category')
+    })
   }, [])
   const backToDatabase = useCallback(() => {
-    setOpened(false)
-    setScreen('database')
+    withViewTransition(() => {
+      setOpened(false)
+      setScreen('database')
+    })
   }, [])
-  const backToBoot = useCallback(() => setScreen('boot'), [])
+  const backToBoot = useCallback(() => withViewTransition(() => setScreen('boot')), [])
   const backToHelix = useCallback(() => setOpened(false), [])
 
   const categoryItems: HomeMenuItem[] = categories.map((c, i) => ({
@@ -180,6 +185,12 @@ export function AnimusApp() {
                   onHover={setCategoryIndex}
                   onSelect={openCategory}
                 />
+                <div className="animus-db-ghost">
+                  <div className="animus-db-ghost-text">
+                    {categories[categoryIndex].label}
+                    <span className="animus-db-desc">{categories[categoryIndex].description}</span>
+                  </div>
+                </div>
               </div>
             </div>
           )}
