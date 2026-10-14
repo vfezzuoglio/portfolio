@@ -5,6 +5,7 @@ import { DatabaseArticle } from './DatabaseArticle'
 import { DatabaseMenu } from './DatabaseMenu'
 import { HelixView } from './HelixView'
 import { HomeMenu, type HomeMenuItem } from './HomeMenu'
+import { HomeMenuBackdrop } from './HomeMenuBackdrop'
 import { InventoryView } from './InventoryView'
 import { NodeDetailModal } from './NodeDetailModal'
 import { categories } from './data'
@@ -176,11 +177,19 @@ export function AnimusApp() {
         <div className="animus-main">
           {screen === 'boot' && (
             <div className="animus-boot">
-              <div>
-                <h1 className="animus-boot-title">{profile.name}</h1>
-                <p className="animus-boot-subtitle">{profile.title}</p>
+              <HomeMenuBackdrop />
+              <div className="animus-boot-content">
+                <div>
+                  <h1 className="animus-boot-title">{profile.name}</h1>
+                  <p className="animus-boot-subtitle">{profile.title}</p>
+                </div>
+                <HomeMenu
+                  items={homeItems}
+                  selectedIndex={homeIndex}
+                  onHover={setHomeIndex}
+                  onSelect={(i) => homeItems[i].action()}
+                />
               </div>
-              <HomeMenu items={homeItems} selectedIndex={homeIndex} onHover={setHomeIndex} onSelect={(i) => homeItems[i].action()} />
             </div>
           )}
 

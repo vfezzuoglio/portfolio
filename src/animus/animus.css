@@ -247,6 +247,15 @@
 /* ---------- boot screen ---------- */
 
 .animus-boot {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.animus-boot-content {
+  position: relative;
+  z-index: 1;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -274,13 +283,35 @@
   margin-top: -20px;
 }
 
+/* ---------- home menu backdrop (cascading diamond cards) ---------- */
+
+.animus-homebackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.animus-homebackdrop-card {
+  position: absolute;
+  background: linear-gradient(135deg, #ffffff, var(--a-bg-soft));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme='dark'] .animus-homebackdrop-card {
+  background: linear-gradient(135deg, #22242c, #1a1b22);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
 /* ---------- home menu (cascading list) ---------- */
 
 .animus-homemenu {
+  position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
-  width: min(420px, 86vw);
+  width: min(460px, 86vw);
 }
 
 .animus-homemenu-row {
@@ -291,47 +322,51 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   text-align: left;
-  background: var(--a-panel);
-  border: 1px solid var(--a-line);
-  padding: 11px 20px;
-  margin-bottom: 4px;
+  background: none;
+  border: none;
+  padding: 10px 18px 10px 0;
+  margin-bottom: 2px;
   font: inherit;
-  font-size: 17px;
-  letter-spacing: 0.08em;
+  font-size: 19px;
+  letter-spacing: 0.06em;
   color: var(--a-text);
   cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s ease, padding 0.15s ease;
 }
 
 .animus-homemenu-marker {
   flex: none;
-  width: 11px;
-  height: 11px;
-  border: 1.5px solid var(--a-text-dim);
-  background: var(--a-bg-soft);
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #ffffff, var(--a-bg-soft));
+  border: 1px solid var(--a-line-strong);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
   transform: rotate(45deg);
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+:root[data-theme='dark'] .animus-homemenu-marker {
+  background: linear-gradient(135deg, #2a2c35, #1a1b22);
 }
 
 .animus-homemenu-item:hover,
 .animus-homemenu-item.is-selected {
-  background: linear-gradient(90deg, var(--a-red), rgba(200, 22, 31, 0.65));
-  border-color: var(--a-red);
   color: #fff;
+  padding-right: 24px;
+  background: linear-gradient(90deg, var(--a-red) 0%, rgba(200, 22, 31, 0.55) 70%, transparent 100%);
 }
 
 .animus-homemenu-item:hover .animus-homemenu-marker,
 .animus-homemenu-item.is-selected .animus-homemenu-marker {
-  border-color: #fff;
+  border-color: var(--a-red);
   background: var(--a-red);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 5px rgba(200, 22, 31, 0.25);
 }
 
 @media (max-width: 860px) {
-  .animus-boot {
+  .animus-boot-content {
     padding-left: 16px;
     align-items: stretch;
   }
@@ -340,6 +375,9 @@
   }
   .animus-homemenu-row {
     margin-left: 0 !important;
+  }
+  .animus-homebackdrop {
+    opacity: 0.6;
   }
 }
 
