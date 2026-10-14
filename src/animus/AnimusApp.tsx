@@ -180,6 +180,12 @@ export function AnimusApp() {
                   onHover={setCategoryIndex}
                   onSelect={openCategory}
                 />
+                <div className="animus-db-ghost">
+                  <div className="animus-db-ghost-text">
+                    {categories[categoryIndex].label}
+                    <span className="animus-db-desc">{categories[categoryIndex].description}</span>
+                  </div>
+                </div>
               </div>
             </div>
           )}
