@@ -24,7 +24,7 @@ export function HomeMenuBackdrop() {
         id: i,
         x,
         y,
-        size: 46 + rand() * 60,
+        size: 64 + rand() * 90,
         rot: 45 + (rand() - 0.5) * 14,
         opacity: 0.35 + rand() * 0.45,
       })
