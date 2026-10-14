@@ -4,22 +4,30 @@ import { AnimusBackground } from './AnimusBackground'
 import { DatabaseArticle } from './DatabaseArticle'
 import { DatabaseMenu } from './DatabaseMenu'
 import { HelixView } from './HelixView'
+import { HomeMenu, type HomeMenuItem } from './HomeMenu'
 import { InventoryView } from './InventoryView'
 import { NodeDetailModal } from './NodeDetailModal'
 import { categories } from './data'
 import { categoryNodes } from './nodes'
 import { profile } from '../data/resume'
+import { useTheme } from '../hooks/useTheme'
 
 type Screen = 'boot' | 'database' | 'category'
+
+const CATEGORY_INDEX: Record<string, number> = Object.fromEntries(
+  categories.map((c, i) => [c.id, i]),
+)
 
 const ARTICLE_CATEGORIES = new Set(['summary', 'contact'])
 const INVENTORY_CATEGORIES = new Set(['skills', 'certifications'])
 
 export function AnimusApp() {
   const [screen, setScreen] = useState<Screen>('boot')
+  const [homeIndex, setHomeIndex] = useState(0)
   const [categoryIndex, setCategoryIndex] = useState(0)
   const [nodeIndex, setNodeIndex] = useState(0)
   const [opened, setOpened] = useState(false)
+  const { toggle: toggleTheme } = useTheme()
 
   const activeCategory = categories[categoryIndex]
   const nodes = categoryNodes[activeCategory.id]
@@ -41,12 +49,37 @@ export function AnimusApp() {
   const backToBoot = useCallback(() => setScreen('boot'), [])
   const backToHelix = useCallback(() => setOpened(false), [])
 
+  const homeItems: HomeMenuItem[] = [
+    {
+      id: 'resume',
+      label: 'RESUME',
+      action: () => window.open('/Vincent_Fezzuoglio_Resume.pdf', '_blank', 'noreferrer'),
+    },
+    { id: 'dna', label: 'DNA', action: () => openCategory(CATEGORY_INDEX.skills) },
+    { id: 'inventory', label: 'INVENTORY', action: () => openCategory(CATEGORY_INDEX.projects) },
+    { id: 'map', label: 'MAP', action: () => openCategory(CATEGORY_INDEX['work-experience']) },
+    { id: 'conspirators', label: 'CONSPIRATORS', action: () => openCategory(CATEGORY_INDEX.contact) },
+    { id: 'database', label: 'DATABASE', action: () => openDatabase() },
+    { id: 'options', label: 'OPTIONS', action: () => toggleTheme() },
+    {
+      id: 'quit',
+      label: 'QUIT',
+      action: () => window.open(profile.github, '_blank', 'noreferrer'),
+    },
+  ]
+
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (screen === 'boot') {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === 'ArrowDown') {
           e.preventDefault()
-          openDatabase()
+          setHomeIndex((i) => (i + 1) % homeItems.length)
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault()
+          setHomeIndex((i) => (i - 1 + homeItems.length) % homeItems.length)
+        } else if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          homeItems[homeIndex].action()
         }
         return
       }
@@ -114,6 +147,8 @@ export function AnimusApp() {
   }, [
     screen,
     opened,
+    homeIndex,
+    homeItems,
     categoryIndex,
     nodes.length,
     isArticle,
@@ -140,16 +175,12 @@ export function AnimusApp() {
 
         <div className="animus-main">
           {screen === 'boot' && (
-            <div
-              className="animus-boot"
-              onClick={openDatabase}
-              role="button"
-              tabIndex={0}
-              aria-label="Enter database"
-            >
-              <h1 className="animus-boot-title">{profile.name}</h1>
-              <p className="animus-boot-subtitle">{profile.title}</p>
-              <span className="animus-boot-enter">PRESS ENTER TO ACCESS DATABASE</span>
+            <div className="animus-boot">
+              <div>
+                <h1 className="animus-boot-title">{profile.name}</h1>
+                <p className="animus-boot-subtitle">{profile.title}</p>
+              </div>
+              <HomeMenu items={homeItems} selectedIndex={homeIndex} onHover={setHomeIndex} onSelect={(i) => homeItems[i].action()} />
             </div>
           )}
 
@@ -293,9 +324,14 @@ export function AnimusApp() {
           </div>
           <div className="animus-keyhints">
             {screen === 'boot' && (
-              <span className="animus-key">
-                <kbd>Enter</kbd> Select
-              </span>
+              <>
+                <span className="animus-key">
+                  <kbd>↑↓</kbd> Navigate
+                </span>
+                <span className="animus-key">
+                  <kbd>Enter</kbd> Select
+                </span>
+              </>
             )}
             {screen === 'database' && (
               <>

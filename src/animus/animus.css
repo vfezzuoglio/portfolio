@@ -250,16 +250,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  text-align: center;
-  gap: 28px;
-  cursor: pointer;
+  text-align: left;
+  gap: 32px;
+  padding-left: clamp(16px, 6vw, 64px);
 }
 
 .animus-boot-title {
   font-family: 'Oxanium', sans-serif;
-  font-size: clamp(40px, 8vw, 84px);
+  font-size: clamp(28px, 4vw, 44px);
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--a-text);
@@ -267,26 +267,79 @@
 }
 
 .animus-boot-subtitle {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--a-text-dim);
   max-width: 520px;
   letter-spacing: 0.04em;
+  margin-top: -20px;
 }
 
-.animus-boot-enter {
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  color: var(--a-text-dim);
-  animation: boot-pulse 1.8s ease-in-out infinite;
+/* ---------- home menu (cascading list) ---------- */
+
+.animus-homemenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: min(420px, 86vw);
 }
 
-@keyframes boot-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
+.animus-homemenu-row {
+  transition: margin-left 0.2s ease;
+}
+
+.animus-homemenu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  background: var(--a-panel);
+  border: 1px solid var(--a-line);
+  padding: 11px 20px;
+  margin-bottom: 4px;
+  font: inherit;
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  color: var(--a-text);
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.animus-homemenu-marker {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--a-text-dim);
+  background: var(--a-bg-soft);
+  transform: rotate(45deg);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.animus-homemenu-item:hover,
+.animus-homemenu-item.is-selected {
+  background: linear-gradient(90deg, var(--a-red), rgba(200, 22, 31, 0.65));
+  border-color: var(--a-red);
+  color: #fff;
+}
+
+.animus-homemenu-item:hover .animus-homemenu-marker,
+.animus-homemenu-item.is-selected .animus-homemenu-marker {
+  border-color: #fff;
+  background: var(--a-red);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 860px) {
+  .animus-boot {
+    padding-left: 16px;
+    align-items: stretch;
   }
-  50% {
-    opacity: 1;
+  .animus-homemenu {
+    width: 100%;
+  }
+  .animus-homemenu-row {
+    margin-left: 0 !important;
   }
 }
 
