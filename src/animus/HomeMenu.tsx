@@ -20,7 +20,7 @@ export function HomeMenu({
       {items.map((item, index) => {
         const isSelected = index === selectedIndex
         return (
-          <li key={item.id} className="animus-homemenu-row" style={{ marginLeft: `${index * 44}px` }}>
+          <li key={item.id} className="animus-homemenu-row">
             <button
               type="button"
               className={`animus-homemenu-item${isSelected ? ' is-selected' : ''}`}
