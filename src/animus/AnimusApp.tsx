@@ -2,13 +2,15 @@ import { useCallback, useEffect, useState } from 'react'
 import './animus.css'
 import { AnimusBackground } from './AnimusBackground'
 import { DatabaseArticle } from './DatabaseArticle'
-import { DatabaseMenu } from './DatabaseMenu'
 import { HelixView } from './HelixView'
+import { HomeMenu, type HomeMenuItem } from './HomeMenu'
+import { HomeMenuBackdrop } from './HomeMenuBackdrop'
 import { InventoryView } from './InventoryView'
 import { NodeDetailModal } from './NodeDetailModal'
 import { categories } from './data'
 import { categoryNodes } from './nodes'
 import { profile } from '../data/resume'
+import { useTheme } from '../hooks/useTheme'
 
 type Screen = 'boot' | 'database' | 'category'
 
@@ -20,6 +22,7 @@ export function AnimusApp() {
   const [categoryIndex, setCategoryIndex] = useState(0)
   const [nodeIndex, setNodeIndex] = useState(0)
   const [opened, setOpened] = useState(false)
+  const { theme, toggle: toggleTheme } = useTheme()
 
   const activeCategory = categories[categoryIndex]
   const nodes = categoryNodes[activeCategory.id]
@@ -40,6 +43,12 @@ export function AnimusApp() {
   }, [])
   const backToBoot = useCallback(() => setScreen('boot'), [])
   const backToHelix = useCallback(() => setOpened(false), [])
+
+  const categoryItems: HomeMenuItem[] = categories.map((c, i) => ({
+    id: c.id,
+    label: c.label,
+    action: () => openCategory(i),
+  }))
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -130,6 +139,14 @@ export function AnimusApp() {
       <AnimusBackground />
       <div className="animus-shell">
         <div className="animus-hud-top">
+          <button
+            type="button"
+            className="animus-theme-toggle"
+            onClick={toggleTheme}
+            aria-label="Toggle light/dark theme"
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
           <a className="animus-dossier-link" href="/Vincent_Fezzuoglio_Resume.pdf" target="_blank" rel="noreferrer">
             DOWNLOAD DOSSIER
           </a>
@@ -154,7 +171,17 @@ export function AnimusApp() {
           )}
 
           {screen === 'database' && (
-            <DatabaseMenu selectedIndex={categoryIndex} onHover={setCategoryIndex} onSelect={openCategory} />
+            <div className="animus-database-cascade">
+              <HomeMenuBackdrop />
+              <div className="animus-database-cascade-content">
+                <HomeMenu
+                  items={categoryItems}
+                  selectedIndex={categoryIndex}
+                  onHover={setCategoryIndex}
+                  onSelect={openCategory}
+                />
+              </div>
+            </div>
           )}
 
           {screen === 'category' && activeCategory.id === 'summary' && (

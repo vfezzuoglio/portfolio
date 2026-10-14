@@ -290,7 +290,296 @@
   }
 }
 
-/* ---------- database menu ---------- */
+/* ---------- theme toggle ---------- */
+
+.animus-theme-toggle {
+  font-size: 16px;
+  line-height: 1;
+  background: var(--a-bg-soft);
+  border: 1px solid var(--a-line);
+  padding: 9px 13px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.animus-theme-toggle:hover {
+  border-color: var(--a-red);
+}
+
+/* ---------- database cascade screen ---------- */
+
+.animus-database-cascade {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+
+.animus-database-cascade-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-left: clamp(30px, 18vw, 300px);
+}
+
+
+/* ---------- home menu backdrop (cascading diamond cards) ---------- */
+
+.animus-homebackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.animus-homebackdrop-card {
+  position: absolute;
+  background: linear-gradient(135deg, #ffffff, var(--a-bg-soft));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme='dark'] .animus-homebackdrop-card {
+  background: linear-gradient(135deg, #22242c, #1a1b22);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ---------- home menu (Assassin's Creed II cascade) ---------- */
+
+.animus-homemenu {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: min(600px, 90vw);
+  isolation: isolate;
+}
+
+/* Individual cascading rows */
+.animus-homemenu-row {
+  position: relative;
+  height: 67px;
+  margin: 0;
+  padding: 0;
+  transition: margin-left 0.25s ease;
+}
+
+/* Diamond staircase pattern */
+
+/* Assassin's Creed II zigzag cascade */
+
+.animus-homemenu-row:nth-child(1) {
+  margin-left: 80px;
+}
+
+.animus-homemenu-row:nth-child(2) {
+  margin-left: 0px;
+}
+
+.animus-homemenu-row:nth-child(3) {
+  margin-left: 65px;
+}
+
+.animus-homemenu-row:nth-child(4) {
+  margin-left: 130px;
+}
+
+.animus-homemenu-row:nth-child(5) {
+  margin-left: 65px;
+}
+
+.animus-homemenu-row:nth-child(6) {
+  margin-left: 0px;
+}
+
+.animus-homemenu-row:nth-child(7) {
+  margin-left: 65px;
+}
+
+.animus-homemenu-row:nth-child(8) {
+  margin-left: 130px;
+}
+
+
+/* Menu buttons */
+.animus-homemenu-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  min-height: 48px;
+  gap: 12px;
+
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  font-family: 'Chakra Petch', 'Oxanium', sans-serif;
+  font-size: 27px;
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  text-transform: uppercase;
+
+  color: var(--a-text);
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+/* Main diamond */
+.animus-homemenu-marker {
+  position: relative;
+  display: block;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+
+  background: linear-gradient(
+    135deg,
+    #aaa 0%,
+    #777 100%
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+
+  box-shadow:
+    7px -7px 0 rgba(255, 255, 255, 0.35),
+    -7px 7px 0 rgba(255, 255, 255, 0.25);
+
+  transform: rotate(45deg);
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Dark theme diamond */
+:root[data-theme='dark'] .animus-homemenu-marker {
+  background: linear-gradient(
+    135deg,
+    #555761,
+    #292b33
+  );
+}
+
+/* Text label behind each menu item */
+/* Assumes text is wrapped in a span */
+.animus-homemenu-item > span:last-child:not(
+  .animus-homemenu-marker
+) {
+  position: relative;
+  z-index: 1;
+
+  display: inline-block;
+  padding: 1px 12px 2px 6px;
+
+  background: rgba(255, 255, 255, 0.75);
+  color: #242424;
+
+  white-space: nowrap;
+  line-height: 1.15;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Dark theme labels */
+:root[data-theme='dark']
+.animus-homemenu-item > span:last-child:not(
+  .animus-homemenu-marker
+) {
+  background: rgba(35, 36, 43, 0.8);
+  color: #e7e8ec;
+}
+
+/* Selected and hovered text */
+.animus-homemenu-item:hover > span:last-child:not(
+  .animus-homemenu-marker
+),
+.animus-homemenu-item.is-selected > span:last-child:not(
+  .animus-homemenu-marker
+) {
+  background: linear-gradient(
+    90deg,
+    #642016 0%,
+    #a32d19 100%
+  );
+
+  color: #fff;
+}
+
+/* Selected and hovered diamond */
+.animus-homemenu-item:hover .animus-homemenu-marker,
+.animus-homemenu-item.is-selected .animus-homemenu-marker {
+  background: linear-gradient(
+    135deg,
+    #f36a50 0%,
+    #b72d19 55%,
+    #752016 100%
+  );
+
+  border-color: #ef7057;
+
+  box-shadow:
+    7px -7px 0 rgba(255, 255, 255, 0.35),
+    0 0 12px rgba(210, 50, 25, 0.35);
+}
+
+/* Slight hover movement */
+.animus-homemenu-item:hover {
+  transform: translateX(3px);
+}
+
+/* Keyboard focus */
+.animus-homemenu-item:focus-visible {
+  outline: 2px solid var(--a-red);
+  outline-offset: 8px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .animus-database-cascade-content {
+    padding-left: 16px;
+  }
+
+  .animus-homemenu {
+    width: 100%;
+  }
+
+  .animus-homemenu-row {
+    height: 58px;
+    margin-left: 0 !important;
+  }
+
+  .animus-homemenu-item {
+    font-size: clamp(16px, 4vw, 24px);
+    gap: 12px;
+  }
+
+  .animus-homemenu-marker {
+    flex-basis: 30px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .animus-homebackdrop {
+    opacity: 0.6;
+  }
+}
+
 
 .animus-database {
   flex: 1;
