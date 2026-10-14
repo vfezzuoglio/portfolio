@@ -609,6 +609,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
   padding: 18px 20px;
   border: 1px solid var(--a-line);
   background: var(--a-panel);
@@ -632,6 +633,7 @@
 .animus-contact-link .value {
   font-size: 15px;
   letter-spacing: 0.03em;
+  overflow-wrap: anywhere;
 }
 
 /* ---------- helix (memory selection) ---------- */
@@ -972,6 +974,9 @@
     max-width: none;
     width: 100%;
     padding: 0 12px;
+  }
+  .animus-key-article {
+    display: none;
   }
 }
 

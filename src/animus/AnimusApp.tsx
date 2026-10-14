@@ -310,13 +310,16 @@ export function AnimusApp() {
                 </span>
               </>
             )}
-            {screen === 'category' && (isArticle || isInventory) && (
+            {screen === 'category' && isArticle && (
+              <span className="animus-key animus-key-article">
+                <kbd>Backspace</kbd> Back
+              </span>
+            )}
+            {screen === 'category' && isInventory && (
               <>
-                {isInventory && (
-                  <span className="animus-key">
-                    <kbd>↑↓</kbd> Navigate
-                  </span>
-                )}
+                <span className="animus-key">
+                  <kbd>↑↓</kbd> Navigate
+                </span>
                 <span className="animus-key">
                   <kbd>Backspace</kbd> Back
                 </span>
