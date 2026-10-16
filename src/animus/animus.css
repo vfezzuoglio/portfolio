@@ -180,24 +180,6 @@
   border-color: var(--a-red-dim);
 }
 
-.animus-synch {
-  font-family: 'Oxanium', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: var(--a-text-dim);
-  background: var(--a-panel);
-  border: 1px solid var(--a-line);
-  padding: 8px 16px;
-  backdrop-filter: blur(6px);
-}
-
-.animus-synch strong {
-  color: var(--a-red);
-  margin-left: 8px;
-  font-size: 15px;
-}
-
 .animus-main {
   flex: 1;
   display: flex;
