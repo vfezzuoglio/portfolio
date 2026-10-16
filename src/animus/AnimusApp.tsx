@@ -155,9 +155,6 @@ export function AnimusApp() {
           <a className="animus-dossier-link" href="/Vincent_Fezzuoglio_Resume.pdf" target="_blank" rel="noreferrer">
             DOWNLOAD DOSSIER
           </a>
-          <div className="animus-synch">
-            TOTAL SYNCH <strong>100.0%</strong>
-          </div>
         </div>
 
         <div className="animus-main">
